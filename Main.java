@@ -23,19 +23,9 @@ public class Main extends Component
 	public Main() 
 	{
 		img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
-		while (isRunning == true)
-		{
-			setBackground();
-			setOrigin(xx,yy);
-			if (xx > 490)
-			{
-				xx = 10;
-			}
-			else
-			{
-				xx++;
-			}
-		}
+
+		setBackground();
+		setOrigin(xx,yy);
 	}
 
 	public void setBackground()
