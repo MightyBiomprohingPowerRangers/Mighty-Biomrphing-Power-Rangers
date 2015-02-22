@@ -17,8 +17,8 @@ public class Main extends Component
 {
 	BufferedImage img;
 	boolean isRunning = true;
-	int xx = 200;
-	int yy = 200;
+	int xx = 250;
+	int yy = 250;
 
 	public Main() 
 	{
@@ -39,12 +39,12 @@ public class Main extends Component
 
 	public void setOrigin(int xcoord, int ycoord)
 	{
-		if (xcoord < 494 && xcoord > 6 && ycoord < 494 && ycoord > 6)
-			for (int x = -5; x < 5; x++)
-				for (int y = -5; y < 5; y++)
-				{
-					img.setRGB(x + xcoord, y + ycoord, getColour(200, 0, 255, 0));
-				}
+		Cluster cluster = new Circle();
+		while (cluster.hasNext())
+		{
+			ClusterPoint point = cluster.next();
+			img.setRGB(point.getX() + xcoord, point.getY() + xcoord, getColour(200, 0, 255, 0));
+		}
 	}
 
 	public void paint(Graphics g) 
