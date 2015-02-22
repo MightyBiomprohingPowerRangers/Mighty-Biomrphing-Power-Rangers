@@ -39,7 +39,7 @@ public class Main extends Component
 
 	public void setOrigin(int xcoord, int ycoord)
 	{
-		Cluster cluster = new Circle();
+		Cluster cluster = new Diamond(); //currently how to change the shape of the brush
 		while (cluster.hasNext())
 		{
 			ClusterPoint point = cluster.next();

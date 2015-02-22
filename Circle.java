@@ -21,7 +21,7 @@ public class Circle extends Cluster
 				for (int ycoord = -4 ; ycoord < 5; ycoord++ )
 				points.add(new ClusterPoint(xcoord, ycoord));
 			}
-			else if (xcoord == -2 || xcoord == 2 || xcoord == -1 || xcoord == 1 || xcoord == 0)
+			else if (xcoord == -1 || xcoord == 1 || xcoord == 0)
 			{
 				for (int ycoord = -5 ; ycoord < 6; ycoord++ )
 				points.add(new ClusterPoint(xcoord, ycoord));
