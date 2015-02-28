@@ -10,11 +10,11 @@ import javax.swing.JFrame;
 
 public class GUI extends Component
 {
-	private Canvas c;
+	private Canvas canvas;
 	
 	public GUI() 
 	{
-		c = new Canvas();
+		canvas = new Canvas();
 	}
 	
 	public static void main(String[] args) 
@@ -27,14 +27,26 @@ public class GUI extends Component
 			}
 		});
 
-		f.add(new GUI());
+		GUI gui = new GUI();
+		
+		f.add(gui);
 		f.pack();
 		f.setVisible(true);
+		Canvas c = new Grow().Grow(gui.getC());
+		f.update(gui.getGraphics());
 	}
 	
+	public Canvas getC() {
+		return canvas;
+	}
+
+	public void setC(Canvas c) {
+		this.canvas = c;
+	}
+
 	public void paint(Graphics g) 
 	{
-		g.drawImage(c.getImg(), 0, 0, null);
+		g.drawImage(canvas.getImg(), 0, 0, null);
 	}
 
 	public Dimension getPreferredSize() 
