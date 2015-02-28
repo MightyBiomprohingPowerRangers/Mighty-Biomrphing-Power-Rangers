@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public abstract class Cluster 
 {
-	ArrayList<ClusterPoint> points = new ArrayList<ClusterPoint>();
-	ClusterPoint centre;
-	int counter = 0;
+	protected ArrayList<ClusterPoint> points = new ArrayList<ClusterPoint>();
+	protected ClusterPoint centre;
+	protected int counter = 0;
 	
 	public Cluster() 
 	{
