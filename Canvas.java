@@ -5,17 +5,27 @@ import java.awt.image.BufferedImage;
 public class Canvas
 {
 	private BufferedImage img;
-	private int xOrigin = 250;
-	private int yOrigin = 250;
+	private int xLength = 1000;
+	private int yLength = 700;
+	private int xOrigin;
+	private int yOrigin;
 	private int brushColour;
+	private int bgColour;
 
 	public Canvas() 
 	{
-		img = new BufferedImage(500, 500, BufferedImage.TYPE_INT_ARGB);
-		setBackground(200,200,0,50);
+		xOrigin = xLength/2;
+		yOrigin = yLength/2;
+		img = new BufferedImage(xLength, yLength, BufferedImage.TYPE_INT_ARGB);
+		bgColour = getARGBValue(200, 200, 0, 50);
+		setBackground(bgColour);
 		brushColour = getARGBValue(200, 0, 200, 200);
 		drawPoint(xOrigin,yOrigin);
 		brushColour = getARGBValue(200, 0, 0, 200);
+	}
+
+	public int getBgColour() {
+		return bgColour;
 	}
 
 	public void setOrigin(int x, int y)
@@ -24,12 +34,12 @@ public class Canvas
 		yOrigin = y;
 	}
 	
-	public void setBackground(int a, int r, int g, int b)
+	public void setBackground(int rgba)
 	{
 		for (int x = 0; x < img.getWidth(); x++)
 			for (int y = 0; y < img.getHeight(); y++)
 			{
-				img.setRGB(x, y, getARGBValue(a, r, g, b));
+				img.setRGB(x, y, rgba);
 			}
 	}
 
@@ -61,5 +71,13 @@ public class Canvas
 
 	public int getyOrigin() {
 		return yOrigin;
+	}
+
+	public int getxLength() {
+		return xLength;
+	}
+
+	public int getyLength() {
+		return yLength;
 	}
 }

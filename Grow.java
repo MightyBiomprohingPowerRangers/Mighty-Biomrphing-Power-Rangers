@@ -5,12 +5,17 @@ import java.util.Random;
 
 public class Grow 
 {
-	Canvas c;
-	Random r;
+	private Canvas c;
+	private Random r;
+	private int x;
+	private int y;
+	
 
 	public Canvas Grow(Canvas c) 
 	{
 		this.c = c;
+		x = c.getxOrigin();
+		y = c.getyOrigin();
 		r = new Random();
 		moveBrush();
 		return c;
@@ -23,11 +28,9 @@ public class Grow
 
 	public void drawLine(int cycles)
 	{	
-		int x = 250;
-		int y = 250;
 		for (int i = 1; i < cycles + 1; i++)
 		{
-			if (x > 10 && x < 490 && y > 10 && y < 490)
+			if (x > 10 && x < c.getxLength() - 10 && y > 10 && y < c.getyLength() - 10)
 			{
 				x+= r.nextInt(11) - 5;
 				y+= r.nextInt(11) - 5;
@@ -38,7 +41,7 @@ public class Grow
 
 	public void drawSLines()
 	{
-		drawLine(5000);
+		drawLine(1000);
 	}
 
 
