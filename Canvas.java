@@ -5,8 +5,8 @@ import java.awt.image.BufferedImage;
 public class Canvas
 {
 	private BufferedImage img;
-	private int xLength = 1000;
-	private int yLength = 700;
+	private int xLength = 500;
+	private int yLength = 500;
 	private int xOrigin;
 	private int yOrigin;
 	private int brushColour;
