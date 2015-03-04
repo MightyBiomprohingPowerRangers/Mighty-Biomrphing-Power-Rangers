@@ -18,9 +18,9 @@ public class Canvas
 		yOrigin = yLength/2;
 		img = new BufferedImage(xLength, yLength, BufferedImage.TYPE_INT_ARGB);
 		bgColour = getARGBValue(200, 200, 0, 50);
-		setBackground(bgColour);
+		drawBackground(bgColour);
 		brushColour = getARGBValue(200, 0, 0, 200);
-		setOutline();
+//		drawOutline();
 		drawPoint(xOrigin,yOrigin);
 //		brushColour = getARGBValue(200, 0, 0, 200);
 	}
@@ -35,7 +35,7 @@ public class Canvas
 		yOrigin = y;
 	}
 	
-	public void setOutline()
+	public void drawOutline()
 	{
 		for (int x = 6; x < xLength-5; x++)
 		{
@@ -49,7 +49,7 @@ public class Canvas
 		}
 	}
 	
-	public void setBackground(int rgba)
+	public void drawBackground(int rgba)
 	{
 		for (int x = 0; x < img.getWidth(); x++)
 			for (int y = 0; y < img.getHeight(); y++)
@@ -69,6 +69,16 @@ public class Canvas
 		{
 			ClusterPoint point = cluster.next();
 			img.setRGB(point.getX() + xcoord, point.getY() + ycoord, brushColour);
+		}
+	}
+	
+	public void drawCentredCluster(Cluster cluster)
+	{
+		while (cluster.hasNext())
+		{
+			ClusterPoint point = cluster.next();
+			drawPoint(point.getX() + xOrigin, point.getY() + yOrigin);
+//			img.setRGB(point.getX() + xOrigin, point.getY() + yOrigin, brushColour);
 		}
 	}
 

@@ -9,13 +9,13 @@ public class Grow
 	private Random r;
 	private int x;
 	private int y;
-	private Unique cluster;
+	private Cluster cluster;
 	
 
 	public Grow(Canvas c) 
 	{
 		this.c = c;
-		cluster = new Unique();
+		cluster = new XMirror(new FullyRandom(500, 500));
 		x = c.getxOrigin();
 		y = c.getyOrigin();
 		r = new Random();
@@ -29,12 +29,7 @@ public class Grow
 
 	public void moveBrush(/*int angle, int magnitude*/)
 	{
-		drawSLines();
-		for (ClusterPoint p : cluster.points)
-		{
-			//c.drawPoint(p.getX(), p.getY());
-			makeSymmetrical(p.getX(), p.getY());
-		}
+		c.drawCentredCluster(cluster);
 	}
 	
 	public void makeSymmetrical(int x, int y)
@@ -44,24 +39,4 @@ public class Grow
 		c.drawPoint(c.getxLength() -x, y);
 		c.drawPoint(c.getxLength() -x, c.getyLength() -y);
 	}
-
-	public void drawLine(int cycles)
-	{	
-		for (int i = 1; i < cycles + 1; i++)
-		{
-			if (x > 10 && x < c.getxLength() - 10 && y > 10 && y < c.getyLength() - 10)
-			{
-				x+= r.nextInt(13) - 6;
-				y+= r.nextInt(13) - 6;
-			}
-			cluster.addPoint(x, y);
-		}
-	}
-
-	public void drawSLines()
-	{
-		drawLine(500);
-	}
-
-
 }
