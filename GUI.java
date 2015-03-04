@@ -7,16 +7,19 @@ import java.awt.Graphics;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Date;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
 public class GUI extends Component
 {
 	private Canvas canvas;
+	private int rgb = Canvas.getARGBValue(200, 0, 0, 200);
 
 	public GUI() 
 	{
 		canvas = new Canvas();
+		
 	}
 
 	public static void main(String[] args) 
@@ -39,19 +42,33 @@ public class GUI extends Component
 		f.pack();
 		f.setVisible(true);
 
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 50; i++)
 		{
 			Canvas temp = gui.getCanvas();
-			Grow grow = new Grow();
-			gui.setCanvas(grow.Grow(temp));
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
 			f.update(gui.getGraphics());
-			gui.setCanvas(new Canvas());
+			gui.pause(1000);
+			Grow grow = new Grow(temp);
+			gui.setCanvas(grow.grow());
+			gui.pause(1000);
+			f.update(gui.getGraphics());
+			if (gui.getRGB() == Canvas.getARGBValue(200, 200, 0, 50))
+			{
+				temp.setBrushColour(Canvas.getARGBValue(200, 0, 0, 200));
+				gui.setRGB(Canvas.getARGBValue(201, 0, 0, 200));
+				gui.setCanvas(temp);
+			}
+			else if (gui.getRGB() == Canvas.getARGBValue(200, 0, 0, 200))
+			{
+				temp.setBrushColour(Canvas.getARGBValue(200, 200, 0, 50));
+				gui.setRGB(Canvas.getARGBValue(200, 200, 0, 50));
+				gui.setCanvas(temp);
+			}
+			else if (gui.getRGB() == Canvas.getARGBValue(201, 0, 0, 200))
+			{
+				temp.setBrushColour(Canvas.getARGBValue(200, 0, 0, 200));
+				gui.setRGB(Canvas.getARGBValue(200, 0, 0, 200));
+				gui.setCanvas(temp);
+			}
 		}
 		long endTime = (new Date()).getTime();
 		long elapsedTime = endTime - startTime;
@@ -60,6 +77,14 @@ public class GUI extends Component
 
 	public Canvas getCanvas() {
 		return canvas;
+	}
+
+	public int getRGB() {
+		return rgb;
+	}
+
+	public void setRGB(int rgb) {
+		this.rgb = rgb;
 	}
 
 	public void setCanvas(Canvas c) {
@@ -73,6 +98,15 @@ public class GUI extends Component
 
 	public Dimension getPreferredSize() 
 	{
-		return new Dimension(canvas.getxLength(), canvas.getyLength());
+		return new Dimension(550, 550);
+	}
+	
+	public void pause(int ms)
+	{
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
 	}
 }
