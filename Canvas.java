@@ -19,9 +19,10 @@ public class Canvas
 		img = new BufferedImage(xLength, yLength, BufferedImage.TYPE_INT_ARGB);
 		bgColour = getARGBValue(200, 200, 0, 50);
 		setBackground(bgColour);
-		brushColour = getARGBValue(200, 0, 200, 200);
-		drawPoint(xOrigin,yOrigin);
 		brushColour = getARGBValue(200, 0, 0, 200);
+		setOutline();
+		drawPoint(xOrigin,yOrigin);
+//		brushColour = getARGBValue(200, 0, 0, 200);
 	}
 
 	public int getBgColour() {
@@ -34,6 +35,20 @@ public class Canvas
 		yOrigin = y;
 	}
 	
+	public void setOutline()
+	{
+		for (int x = 6; x < xLength-5; x++)
+		{
+			drawPoint(x, 6);
+			drawPoint(x, yLength-6);
+		}
+		for (int y = 6; y < xLength-5; y++)
+		{
+			drawPoint(6, y);
+			drawPoint(xLength-6, y);
+		}
+	}
+	
 	public void setBackground(int rgba)
 	{
 		for (int x = 0; x < img.getWidth(); x++)
@@ -41,6 +56,10 @@ public class Canvas
 			{
 				img.setRGB(x, y, rgba);
 			}
+	}
+
+	public void setBrushColour(int brushColour) {
+		this.brushColour = brushColour;
 	}
 
 	public void drawPoint(int xcoord, int ycoord)
@@ -53,7 +72,7 @@ public class Canvas
 		}
 	}
 
-	private int getARGBValue(int alpha, int red, int green, int blue)
+	public static int getARGBValue(int alpha, int red, int green, int blue)
 	{
 		alpha = alpha << 24;
 		red = red << 16;
