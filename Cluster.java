@@ -30,4 +30,13 @@ public abstract class Cluster
 			return true;
 		return false;
 	}
+	
+	public Cluster add(Cluster cluster)
+	{
+		while (cluster.hasNext())
+		{
+			this.points.add(cluster.next());
+		}
+		return cluster;
+	}
 }
