@@ -12,15 +12,18 @@ public class Grow
 	private Unique cluster;
 	
 
-	public Canvas Grow(Canvas c) 
+	public Grow(Canvas c) 
 	{
 		this.c = c;
 		cluster = new Unique();
 		x = c.getxOrigin();
 		y = c.getyOrigin();
 		r = new Random();
+	}
+	
+	public Canvas grow()
+	{
 		moveBrush();
-		//makeSymmetrical();
 		return c;
 	}
 
@@ -29,6 +32,7 @@ public class Grow
 		drawSLines();
 		for (ClusterPoint p : cluster.points)
 		{
+			//c.drawPoint(p.getX(), p.getY());
 			makeSymmetrical(p.getX(), p.getY());
 		}
 	}
