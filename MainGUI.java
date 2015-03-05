@@ -21,6 +21,8 @@ public class MainGUI extends JFrame
 	private GUI gui;
 	private JButton generateButton;
 	private JLabel historyImage1;
+	private JLabel historyImage2;
+	private JLabel historyImage3;
 	private JLabel setupTime;
 	private JLabel redrawTime;
 	
@@ -45,6 +47,8 @@ public class MainGUI extends JFrame
 		gui = new GUI();
 		generateButton = new JButton();
 		historyImage1 = new JLabel();
+		historyImage2 = new JLabel();
+		historyImage3 = new JLabel();
 		setupTime = new JLabel();
 		redrawTime = new JLabel();
 		
@@ -63,9 +67,11 @@ public class MainGUI extends JFrame
 		setTitle("Biomorph Generator");
 		
 		currentImageLabel.setText("Current Image");
-		editLabel.setText("Edit Section");
+		editLabel.setText("");
 		historyLabel.setText("History");
 		historyImage1.setIcon(null);
+		historyImage2.setIcon(null);
+		historyImage3.setIcon(null);
 		currentImage.setIcon(new ImageIcon(gui.getCanvas().getImg()));
 		redrawTime.setText("Time:");
 		
@@ -100,21 +106,25 @@ public class MainGUI extends JFrame
 		pane.add(rightPane, BorderLayout.LINE_END);
 		
 		currentImageLabel.setPreferredSize(new Dimension(100, 20));
-		editLabel.setPreferredSize(new Dimension(100, 20));
+		editLabel.setPreferredSize(new Dimension(10, 20));
 		historyLabel.setPreferredSize(new Dimension(100, 20));
 		currentImage.setPreferredSize(new Dimension(500, 500));
 		historyImage1.setPreferredSize(new Dimension(200, 200));
-		redrawTime.setPreferredSize(new Dimension(100, 20));
+		historyImage2.setPreferredSize(new Dimension(200, 200));
+		historyImage3.setPreferredSize(new Dimension(200, 200));
+		redrawTime.setPreferredSize(new Dimension(170, 20));
 		
 		leftPane.add(currentImageLabel);
 		leftPane.add(currentImage);
 		leftPane.add(generateButton);
+		leftPane.add(redrawTime);
 		
 		centerPane.add(editLabel);
 		
 		rightPane.add(historyLabel);
 		rightPane.add(historyImage1);
-		rightPane.add(redrawTime);
+		rightPane.add(historyImage2);
+		rightPane.add(historyImage3);
 
 //		GroupLayout layout = new GroupLayout(getContentPane());
 //		getContentPane().setLayout(layout);
@@ -155,6 +165,8 @@ public class MainGUI extends JFrame
 	private void generateButtonActionPerformed(ActionEvent evt) 
 	{
 		long startTime = (new Date()).getTime();
+		historyImage3.setIcon(historyImage2.getIcon());
+		historyImage2.setIcon(historyImage1.getIcon());
 		historyImage1.setIcon(new ImageIcon(gui.getCanvas().getScaledImage(200, 200)));
 		gui.generate();
 		currentImage.setIcon(new ImageIcon(gui.getCanvas().getImg()));
@@ -179,6 +191,6 @@ public class MainGUI extends JFrame
 		
 		long endTime = (new Date()).getTime();
 		long elapsedTime = endTime - startTime;
-		System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
+		//System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
 	}
 }
