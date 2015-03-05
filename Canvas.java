@@ -1,5 +1,6 @@
 package MBPR;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 public class Canvas
@@ -108,5 +109,10 @@ public class Canvas
 
 	public int getyLength() {
 		return yLength;
+	}
+	
+	public Image getScaledImage(int x, int y)
+	{
+		return img.getScaledInstance(x, y, Image.SCALE_SMOOTH);
 	}
 }

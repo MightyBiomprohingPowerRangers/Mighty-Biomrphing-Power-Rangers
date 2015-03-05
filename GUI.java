@@ -18,8 +18,7 @@ public class GUI extends Component
 
 	public GUI() 
 	{
-		canvas = new Canvas();
-		
+		generate();
 	}
 
 	public static void main(String[] args) 
@@ -41,38 +40,38 @@ public class GUI extends Component
 		f.add(gui);
 		f.pack();
 		f.setVisible(true);
-
-		for (int i = 0; i < 15; i++)
-		{
-			Canvas temp = gui.getCanvas();
-			f.update(gui.getGraphics());
-			gui.pause(100);
-			Grow grow = new Grow(temp);
-			gui.setCanvas(grow.grow());
-			gui.pause(100);
-			f.update(gui.getGraphics());
-			if (gui.getRGB() == Canvas.getARGBValue(200, 0, 0, 100))
-			{
-				temp.setBrushColour(Canvas.getARGBValue(200, 0, 0, 200));
-				gui.setRGB(Canvas.getARGBValue(201, 0, 0, 200));
-				gui.setCanvas(temp);
-			}
-			else if (gui.getRGB() == Canvas.getARGBValue(200, 0, 0, 200))
-			{
-				temp.setBrushColour(Canvas.getARGBValue(200, 0, 0, 100));
-				gui.setRGB(Canvas.getARGBValue(200, 0, 0, 100));
-				gui.setCanvas(temp);
-			}
-			else if (gui.getRGB() == Canvas.getARGBValue(201, 0, 0, 200))
-			{
-				temp.setBrushColour(Canvas.getARGBValue(200, 0, 0, 200));
-				gui.setRGB(Canvas.getARGBValue(200, 0, 0, 200));
-				gui.setCanvas(temp);
-			}
-		}
 		long endTime = (new Date()).getTime();
 		long elapsedTime = endTime - startTime;
-		//System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
+		System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
+	}
+	
+	public void generate()
+	{
+		canvas = new Canvas();
+		for (int i = 0; i < 15; i++)
+		{
+			Canvas temp = getCanvas();
+			Grow grow = new Grow(temp);
+			setCanvas(grow.grow());
+			if (getRGB() == Canvas.getARGBValue(200, 0, 0, 100))
+			{
+				temp.setBrushColour(Canvas.getARGBValue(200, 0, 0, 200));
+				setRGB(Canvas.getARGBValue(201, 0, 0, 200));
+				setCanvas(temp);
+			}
+			else if (getRGB() == Canvas.getARGBValue(200, 0, 0, 200))
+			{
+				temp.setBrushColour(Canvas.getARGBValue(200, 0, 0, 100));
+				setRGB(Canvas.getARGBValue(200, 0, 0, 100));
+				setCanvas(temp);
+			}
+			else if (getRGB() == Canvas.getARGBValue(201, 0, 0, 200))
+			{
+				temp.setBrushColour(Canvas.getARGBValue(200, 0, 0, 200));
+				setRGB(Canvas.getARGBValue(200, 0, 0, 200));
+				setCanvas(temp);
+			}
+		}
 	}
 
 	public Canvas getCanvas() {
@@ -96,9 +95,9 @@ public class GUI extends Component
 		g.drawImage(canvas.getImg(), 0, 0, null);
 	}
 
-	public Dimension getPreferredSize() 
+	public Dimension getPreferredSize(int x, int y) 
 	{
-		return new Dimension(550, 550);
+		return new Dimension(x, y);
 	}
 	
 	public void pause(int ms)
