@@ -1,8 +1,10 @@
 package MBPR;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Date;
 
 public class MainGUI extends JFrame 
 {
@@ -19,6 +21,8 @@ public class MainGUI extends JFrame
 	private GUI gui;
 	private JButton generateButton;
 	private JLabel historyImage1;
+	private JLabel setupTime;
+	private JLabel redrawTime;
 	
 	private Container pane;
 	
@@ -41,6 +45,8 @@ public class MainGUI extends JFrame
 		gui = new GUI();
 		generateButton = new JButton();
 		historyImage1 = new JLabel();
+		setupTime = new JLabel();
+		redrawTime = new JLabel();
 		
 		pane = getContentPane();
 		
@@ -61,6 +67,8 @@ public class MainGUI extends JFrame
 		historyLabel.setText("History");
 		historyImage1.setIcon(null);
 		currentImage.setIcon(new ImageIcon(gui.getCanvas().getImg()));
+		redrawTime.setText("Time:");
+		
 		
 		generateButton.setText("Generate");
 		generateButton.addActionListener(new ActionListener() {
@@ -96,6 +104,7 @@ public class MainGUI extends JFrame
 		historyLabel.setPreferredSize(new Dimension(100, 20));
 		currentImage.setPreferredSize(new Dimension(500, 500));
 		historyImage1.setPreferredSize(new Dimension(200, 200));
+		redrawTime.setPreferredSize(new Dimension(100, 20));
 		
 		leftPane.add(currentImageLabel);
 		leftPane.add(currentImage);
@@ -105,6 +114,7 @@ public class MainGUI extends JFrame
 		
 		rightPane.add(historyLabel);
 		rightPane.add(historyImage1);
+		rightPane.add(redrawTime);
 
 //		GroupLayout layout = new GroupLayout(getContentPane());
 //		getContentPane().setLayout(layout);
@@ -144,18 +154,31 @@ public class MainGUI extends JFrame
 
 	private void generateButtonActionPerformed(ActionEvent evt) 
 	{
+		long startTime = (new Date()).getTime();
 		historyImage1.setIcon(new ImageIcon(gui.getCanvas().getScaledImage(200, 200)));
 		gui.generate();
 		currentImage.setIcon(new ImageIcon(gui.getCanvas().getImg()));
+		long endTime = (new Date()).getTime();
+		long elapsedTime = endTime - startTime;
+		redrawTime.setText("Generate Time: (" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
+		//System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
 		
 	}
 
 	public static void main(String args[]) 
 	{
+		long startTime = (new Date()).getTime();
+		
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				new MainGUI().setVisible(true);
 			}
 		});
+
+		
+		long endTime = (new Date()).getTime();
+		long elapsedTime = endTime - startTime;
+		System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
 	}
 }

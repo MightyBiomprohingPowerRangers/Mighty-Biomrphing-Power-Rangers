@@ -23,7 +23,7 @@ public class GUI extends Component
 
 	public static void main(String[] args) 
 	{
-		long startTime = (new Date()).getTime();
+		
 
 
 		JFrame f = new JFrame("Load Image Sample");
@@ -40,6 +40,9 @@ public class GUI extends Component
 		f.add(gui);
 		f.pack();
 		f.setVisible(true);
+		
+		long startTime = (new Date()).getTime();
+		
 		long endTime = (new Date()).getTime();
 		long elapsedTime = endTime - startTime;
 		System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
