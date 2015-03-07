@@ -1,36 +1,34 @@
 package MBPR;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class MainGUI extends JFrame 
 {
-
-//	private JLabel celsiusLabel;
-//	private JButton generateButton;
-//	private JLabel fahrenheitLabel;
-//	private JTextField tempTextField;
-		
-	private JLabel currentImageLabel;
-	private JLabel currentImage;
-	private JLabel editLabel;
-	private JLabel historyLabel;
-	private GUI gui;
-	private JButton generateButton;
-	private JLabel historyImage1;
-	private JLabel historyImage2;
-	private JLabel historyImage3;
-	private JLabel setupTime;
-	private JLabel redrawTime;
-	
 	private Container pane;
 	
 	private JPanel leftPane;
 	private JPanel centerPane;
 	private JPanel rightPane;
+	
+	private JLabel currentImageLabel;
+	private JLabel historyLabel;
+	private JLabel editLabel;
+	
+	private GUI gui;
+	private JLabel currentImage;
+	private ArrayList<JLabel> historyImages;
+	private JLabel redrawTime;
+	
+	private JButton generateButton;
+	
+	private ArrayList<JSlider> sliders;
 
 	public MainGUI() 
 	{
@@ -39,62 +37,112 @@ public class MainGUI extends JFrame
 
 	private void initComponents() 
 	{
-		
-		currentImageLabel = new JLabel();
-		currentImage = new JLabel();
-		editLabel = new JLabel();
-		historyLabel = new JLabel();
-		gui = new GUI();
-		generateButton = new JButton();
-		historyImage1 = new JLabel();
-		historyImage2 = new JLabel();
-		historyImage3 = new JLabel();
-		setupTime = new JLabel();
-		redrawTime = new JLabel();
-		
-		pane = getContentPane();
-		
-		leftPane = new JPanel();
-		centerPane = new JPanel();
-		rightPane = new JPanel();
-		
-//		tempTextField = new JTextField();
-//		celsiusLabel = new JLabel();
-//		generateButton = new JButton();
-//		fahrenheitLabel = new JLabel();
-
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Biomorph Generator");
 		
+		createLabels();
+		createBiomorphComponents();
+		createButtons();
+		createSliders();
+		createLayout();
+	}
+
+	private void createLabels()
+	{
+		currentImageLabel = new JLabel();
 		currentImageLabel.setText("Current Image");
-		editLabel.setText("");
+		currentImageLabel.setPreferredSize(new Dimension(310, 20));
+		
+		editLabel = new JLabel();
+		editLabel.setText("Gene Pool");
+		editLabel.setPreferredSize(new Dimension(70, 20));
+
+		historyLabel = new JLabel();
 		historyLabel.setText("History");
-		historyImage1.setIcon(null);
-		historyImage2.setIcon(null);
-		historyImage3.setIcon(null);
+		historyLabel.setPreferredSize(new Dimension(100, 20));
+	}
+	
+	private void createBiomorphComponents()
+	{
+		gui = new GUI();
+		
+		currentImage = new JLabel();
 		currentImage.setIcon(new ImageIcon(gui.getCanvas().getImg()));
+		currentImage.setPreferredSize(new Dimension(500, 500));
+		
+		historyImages = new ArrayList<JLabel>();
+		for (int i = 0; i < 3; i++)
+			historyImages.add(new JLabel());
+		for (JLabel label: historyImages)
+			label.setIcon(null);
+		for (JLabel label: historyImages)
+			label.setPreferredSize(new Dimension(200, 200));
+		
+		redrawTime = new JLabel();
 		redrawTime.setText("Time:");
-		
-		
+		redrawTime.setPreferredSize(new Dimension(170, 20));
+	}
+	
+	private void createButtons()
+	{
+		generateButton = new JButton();
 		generateButton.setText("Generate");
 		generateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				generateButtonActionPerformed(evt);
 			}
 		});
+		generateButton.setPreferredSize(new Dimension(100, 20));
+	}
+	
+	private void generateButtonActionPerformed(ActionEvent evt) 
+	{
+		long startTime = (new Date()).getTime();
 		
-//		celsiusLabel.setText("Celsius");
-//
-//		generateButton.setText("Generate");
-//		generateButton.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent evt) {
-//				generateButtonActionPerformed(evt);
-//			}
-//		});
-//
-//		fahrenheitLabel.setText("Fahrenheit");
 		
-		BorderLayout layout2 = new BorderLayout(10,10);
+		for (int i = 2; i > 0; i--)
+			historyImages.get(i).setIcon(historyImages.get(i-1).getIcon());
+		historyImages.get(0).setIcon(new ImageIcon(gui.getCanvas().getScaledImage(200, 200)));
+		gui.generate();
+		currentImage.setIcon(new ImageIcon(gui.getCanvas().getImg()));
+		
+		
+		long endTime = (new Date()).getTime();
+		long elapsedTime = endTime - startTime;
+		redrawTime.setText("Generate Time: (" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
+		//System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
+		
+	}
+	
+	private void createSliders()
+	{
+		sliders = new ArrayList<JSlider>();
+		for (int i = 0; i < 7; i++)
+			sliders.add(createSlider());
+	}
+	
+	private JSlider createSlider()
+	{
+		JSlider slider = new JSlider();
+		slider.setMaximum(10);
+		slider.setMinimum(0);
+		slider.setValue(5);
+		slider.setMajorTickSpacing(5);
+		slider.setMinorTickSpacing(1);
+		slider.createStandardLabels(1);
+		slider.setPaintLabels(true);
+		slider.setPaintTicks(true);
+		slider.setPreferredSize(new Dimension(300, 50));
+		return slider;
+	}
+
+	private void createLayout() 
+	{
+		pane = getContentPane();
+		
+		leftPane = new JPanel();
+		centerPane = new JPanel();
+		rightPane = new JPanel();
 		
 		leftPane.setLayout(new BoxLayout(leftPane, BoxLayout.PAGE_AXIS));
 		pane.add(leftPane, BorderLayout.LINE_START);
@@ -105,76 +153,20 @@ public class MainGUI extends JFrame
 		rightPane.setLayout(new BoxLayout(rightPane, BoxLayout.PAGE_AXIS));
 		pane.add(rightPane, BorderLayout.LINE_END);
 		
-		currentImageLabel.setPreferredSize(new Dimension(100, 20));
-		editLabel.setPreferredSize(new Dimension(10, 20));
-		historyLabel.setPreferredSize(new Dimension(100, 20));
-		currentImage.setPreferredSize(new Dimension(500, 500));
-		historyImage1.setPreferredSize(new Dimension(200, 200));
-		historyImage2.setPreferredSize(new Dimension(200, 200));
-		historyImage3.setPreferredSize(new Dimension(200, 200));
-		redrawTime.setPreferredSize(new Dimension(170, 20));
-		
 		leftPane.add(currentImageLabel);
 		leftPane.add(currentImage);
 		leftPane.add(generateButton);
 		leftPane.add(redrawTime);
 		
 		centerPane.add(editLabel);
+		for (JSlider slider: sliders)
+			centerPane.add(slider);
 		
 		rightPane.add(historyLabel);
-		rightPane.add(historyImage1);
-		rightPane.add(historyImage2);
-		rightPane.add(historyImage3);
-
-//		GroupLayout layout = new GroupLayout(getContentPane());
-//		getContentPane().setLayout(layout);
-//		layout.setHorizontalGroup(
-//				layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-//				.addGroup(layout.createSequentialGroup()
-//						.addContainerGap()
-//						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-//								.addGroup(layout.createSequentialGroup()
-//										.addComponent(tempTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-//										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-//										.addComponent(celsiusLabel))
-//										.addGroup(layout.createSequentialGroup()
-//												.addComponent(generateButton)
-//												.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-//												.addComponent(fahrenheitLabel)))
-//												.addContainerGap(27, Short.MAX_VALUE))
-//				);
-//
-//		layout.linkSize(SwingConstants.HORIZONTAL, new Component[] {generateButton, tempTextField});
-//
-//		layout.setVerticalGroup(
-//				layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-//				.addGroup(layout.createSequentialGroup()
-//						.addContainerGap()
-//						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-//								.addComponent(tempTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-//								.addComponent(celsiusLabel))
-//								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-//								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-//										.addComponent(generateButton)
-//										.addComponent(fahrenheitLabel))
-//										.addContainerGap(21, Short.MAX_VALUE))
-//				);
-		pack();
-	}
-
-	private void generateButtonActionPerformed(ActionEvent evt) 
-	{
-		long startTime = (new Date()).getTime();
-		historyImage3.setIcon(historyImage2.getIcon());
-		historyImage2.setIcon(historyImage1.getIcon());
-		historyImage1.setIcon(new ImageIcon(gui.getCanvas().getScaledImage(200, 200)));
-		gui.generate();
-		currentImage.setIcon(new ImageIcon(gui.getCanvas().getImg()));
-		long endTime = (new Date()).getTime();
-		long elapsedTime = endTime - startTime;
-		redrawTime.setText("Generate Time: (" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
-		//System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
+		for (JLabel label: historyImages)
+			rightPane.add(label);
 		
+		pack();	
 	}
 
 	public static void main(String args[]) 
@@ -191,6 +183,6 @@ public class MainGUI extends JFrame
 		
 		long endTime = (new Date()).getTime();
 		long elapsedTime = endTime - startTime;
-		//System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
+//		System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
 	}
 }

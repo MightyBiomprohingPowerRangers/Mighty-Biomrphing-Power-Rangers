@@ -50,6 +50,7 @@ public class GUI extends Component
 	
 	public void generate()
 	{
+		long startTime = (new Date()).getTime();
 		canvas = new Canvas();
 		for (int i = 0; i < 15; i++)
 		{
@@ -75,6 +76,9 @@ public class GUI extends Component
 				setCanvas(temp);
 			}
 		}
+		long endTime = (new Date()).getTime();
+		long elapsedTime = endTime - startTime;
+//		System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
 	}
 
 	public Canvas getCanvas() {

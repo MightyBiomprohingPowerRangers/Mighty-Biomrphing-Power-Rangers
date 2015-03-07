@@ -21,9 +21,7 @@ public class Canvas
 		bgColour = getARGBValue(200, 200, 0, 50);
 		drawBackground(bgColour);
 		brushColour = getARGBValue(200, 0, 0, 200);
-//		drawOutline();
 		drawPoint(xOrigin,yOrigin);
-//		brushColour = getARGBValue(200, 0, 0, 200);
 	}
 
 	public int getBgColour() {
