@@ -21,7 +21,7 @@ public class MainGUI extends JFrame
 	private JLabel historyLabel;
 	private JLabel editLabel;
 	
-	private Grow gui;
+	private Grow grow;
 	private JLabel currentImage;
 	private ArrayList<JLabel> historyImages;
 	private JLabel redrawTime;
@@ -31,6 +31,8 @@ public class MainGUI extends JFrame
 	private JButton saveButton;
 	
 	private ArrayList<JSlider> sliders;
+	private ArrayList<JLabel> sliderLabels;
+	private int noSliders = 2;
 
 	public MainGUI() 
 	{
@@ -66,10 +68,10 @@ public class MainGUI extends JFrame
 	
 	private void createBiomorphComponents()
 	{
-		gui = new Grow();
+		grow = new Grow();
 		
 		currentImage = new JLabel();
-		currentImage.setIcon(new ImageIcon(gui.getCanvas().getImg()));
+		currentImage.setIcon(new ImageIcon(grow.getCanvas().getImg()));
 		currentImage.setPreferredSize(new Dimension(500, 500));
 		
 		historyImages = new ArrayList<JLabel>();
@@ -117,9 +119,11 @@ public class MainGUI extends JFrame
 		
 		for (int i = 2; i > 0; i--)
 			historyImages.get(i).setIcon(historyImages.get(i-1).getIcon());
-		historyImages.get(0).setIcon(new ImageIcon(gui.getCanvas().getScaledImage(200, 200)));
-		gui.generate();
-		currentImage.setIcon(new ImageIcon(gui.getCanvas().getImg()));
+		historyImages.get(0).setIcon(new ImageIcon(grow.getCanvas().getScaledImage(200, 200)));
+		grow.setComplexity(sliders.get(0).getValue());
+		grow.setLength(sliders.get(1).getValue());
+		grow.generate();
+		currentImage.setIcon(new ImageIcon(grow.getCanvas().getImg()));
 		
 		
 		long endTime = (new Date()).getTime();
@@ -142,9 +146,22 @@ public class MainGUI extends JFrame
 	
 	private void createSliders()
 	{
+		sliderLabels = new ArrayList<JLabel>();
+		sliderLabels.add(createSliderLabels("Complexity"));
+		sliderLabels.add(createSliderLabels("Length"));
+		
 		sliders = new ArrayList<JSlider>();
-		for (int i = 0; i < 7; i++)
+		for (int i = 0; i < noSliders; i++)
 			sliders.add(createSlider());
+	}
+	
+	private JLabel createSliderLabels(String label)
+	{
+		JLabel sliderLabel = new JLabel();
+		sliderLabel = new JLabel();
+		sliderLabel.setText(label);
+		sliderLabel.setPreferredSize(new Dimension(310, 20));
+		return sliderLabel;
 	}
 	
 	private JSlider createSlider()
@@ -186,8 +203,11 @@ public class MainGUI extends JFrame
 		leftPane.add(redrawTime);
 		
 		centerPane.add(editLabel);
-		for (JSlider slider: sliders)
-			centerPane.add(slider);
+		for (int i = 0; i < noSliders; i++)
+		{
+			centerPane.add(sliderLabels.get(i));
+			centerPane.add(sliders.get(i));
+		}
 		
 		centerPane.add(generateButton);
 		centerPane.add(saveButton);

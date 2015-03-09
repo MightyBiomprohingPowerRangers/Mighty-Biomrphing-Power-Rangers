@@ -6,6 +6,8 @@ public class Grow
 {
 	private Canvas canvas;
 	private int rgb = Canvas.getARGBValue(200, 0, 0, 200);
+	private int complexity = 5;
+	private int length = 100;
 
 	public Grow() 
 	{
@@ -16,7 +18,7 @@ public class Grow
 	{
 		long startTime = (new Date()).getTime();
 		canvas = new Canvas();
-		for (int i = 0; i < 15; i++)
+		for (int i = 0; i < complexity; i++)
 		{
 			grow();
 			if (getRGB() == Canvas.getARGBValue(200, 0, 0, 100))
@@ -55,9 +57,17 @@ public class Grow
 		this.rgb = rgb;
 	}
 	
+	public void setComplexity(int complexity) {
+		this.complexity = complexity;
+	}
+	
+	public void setLength(int length) {
+		this.length = length*100;
+	}
+
 	private void grow()
 	{
-		canvas.drawCentredCluster(new XMirror(new FullyRandom(500,500)));
+		canvas.drawCentredCluster(new XMirror(new FullyRandom(500,500,length)));
 	}
 	
 	public static void pause(int ms)
