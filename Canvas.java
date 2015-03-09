@@ -24,13 +24,13 @@ public class Canvas
 		drawPoint(xOrigin,yOrigin);
 	}
 
-	public void setOrigin(int x, int y)
+	private void setOrigin(int x, int y)
 	{
 		xOrigin = x;
 		yOrigin = y;
 	}
 	
-	public void drawOutline()
+	private void drawOutline()
 	{
 		for (int x = 6; x < xLength-5; x++)
 		{
@@ -44,7 +44,7 @@ public class Canvas
 		}
 	}
 	
-	public void drawBackground(int rgba)
+	private void drawBackground(int rgba)
 	{
 		for (int x = 0; x < img.getWidth(); x++)
 			for (int y = 0; y < img.getHeight(); y++)
@@ -57,7 +57,7 @@ public class Canvas
 		this.brushColour = brushColour;
 	}
 
-	public void drawPoint(int xcoord, int ycoord)
+	private void drawPoint(int xcoord, int ycoord)
 	{
 		Cluster cluster = new Circle(); //currently how to change the shape of the brush
 		while (cluster.hasNext())
@@ -89,22 +89,6 @@ public class Canvas
 		return img;
 	}
 
-	public int getxOrigin() {
-		return xOrigin;
-	}
-
-	public int getyOrigin() {
-		return yOrigin;
-	}
-
-	public int getxLength() {
-		return xLength;
-	}
-
-	public int getyLength() {
-		return yLength;
-	}
-	
 	public Image getScaledImage(int x, int y)
 	{
 		return img.getScaledInstance(x, y, Image.SCALE_SMOOTH);

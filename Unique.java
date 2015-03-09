@@ -11,10 +11,4 @@ public abstract class Unique extends Cluster
 		this.maxX = maxX;
 		this.maxY = maxY;
 	}
-	
-	public void addPoint(int x, int y)
-	{
-		points.add(new ClusterPoint(x, y));
-	}
-
 }

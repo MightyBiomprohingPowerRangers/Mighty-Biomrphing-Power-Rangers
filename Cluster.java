@@ -31,7 +31,7 @@ public abstract class Cluster
 		return false;
 	}
 	
-	public Cluster add(Cluster cluster)
+	private Cluster add(Cluster cluster)
 	{
 		while (cluster.hasNext())
 		{
