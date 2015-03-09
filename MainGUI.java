@@ -21,12 +21,14 @@ public class MainGUI extends JFrame
 	private JLabel historyLabel;
 	private JLabel editLabel;
 	
-	private GUI gui;
+	private Grow gui;
 	private JLabel currentImage;
 	private ArrayList<JLabel> historyImages;
 	private JLabel redrawTime;
+	private JLabel saveTime;
 	
 	private JButton generateButton;
+	private JButton saveButton;
 	
 	private ArrayList<JSlider> sliders;
 
@@ -64,7 +66,7 @@ public class MainGUI extends JFrame
 	
 	private void createBiomorphComponents()
 	{
-		gui = new GUI();
+		gui = new Grow();
 		
 		currentImage = new JLabel();
 		currentImage.setIcon(new ImageIcon(gui.getCanvas().getImg()));
@@ -81,6 +83,10 @@ public class MainGUI extends JFrame
 		redrawTime = new JLabel();
 		redrawTime.setText("Time:");
 		redrawTime.setPreferredSize(new Dimension(170, 20));
+		
+		saveTime = new JLabel();
+		saveTime.setText("Time:");
+		saveTime.setPreferredSize(new Dimension(170, 20));
 	}
 	
 	private void createButtons()
@@ -93,6 +99,15 @@ public class MainGUI extends JFrame
 			}
 		});
 		generateButton.setPreferredSize(new Dimension(100, 20));
+		
+		saveButton = new JButton();
+		saveButton.setText("Save");
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				saveButtonActionPerformed(evt);
+			}
+		});
+		saveButton.setPreferredSize(new Dimension(100, 20));
 	}
 	
 	private void generateButtonActionPerformed(ActionEvent evt) 
@@ -110,8 +125,19 @@ public class MainGUI extends JFrame
 		long endTime = (new Date()).getTime();
 		long elapsedTime = endTime - startTime;
 		redrawTime.setText("Generate Time: (" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
+		saveTime.setText("Save Time: (" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
 		//System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
+	}
+	
+	private void saveButtonActionPerformed(ActionEvent evt) 
+	{
+		long startTime = (new Date()).getTime();
 		
+		
+		long endTime = (new Date()).getTime();
+		long elapsedTime = endTime - startTime;
+		saveTime.setText("Generate Time: (" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
+		//System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
 	}
 	
 	private void createSliders()
@@ -156,11 +182,15 @@ public class MainGUI extends JFrame
 		leftPane.add(currentImageLabel);
 		leftPane.add(currentImage);
 		leftPane.add(generateButton);
+		leftPane.add(saveButton);
 		leftPane.add(redrawTime);
 		
 		centerPane.add(editLabel);
 		for (JSlider slider: sliders)
 			centerPane.add(slider);
+		
+		centerPane.add(generateButton);
+		centerPane.add(saveButton);
 		
 		rightPane.add(historyLabel);
 		for (JLabel label: historyImages)
