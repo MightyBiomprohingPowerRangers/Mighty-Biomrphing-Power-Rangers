@@ -24,10 +24,6 @@ public class Canvas
 		drawPoint(xOrigin,yOrigin);
 	}
 
-	public int getBgColour() {
-		return bgColour;
-	}
-
 	public void setOrigin(int x, int y)
 	{
 		xOrigin = x;

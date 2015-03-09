@@ -1,42 +1,71 @@
 package MBPR;
 
-import java.awt.image.BufferedImage;
-import java.util.Random;
+import java.util.Date;
 
-public class Grow 
+public class Grow
 {
-	private Canvas c;
-	private Random r;
-	private int x;
-	private int y;
-	private Cluster cluster;
-	
+	private Canvas canvas;
+	private int rgb = Canvas.getARGBValue(200, 0, 0, 200);
 
-	public Grow(Canvas c) 
+	public Grow() 
 	{
-		this.c = c;
-		cluster = new XMirror(new FullyRandom(500, 500));
-		x = c.getxOrigin();
-		y = c.getyOrigin();
-		r = new Random();
+		generate();
 	}
 	
-	public Canvas grow()
+	public void generate()
 	{
-		moveBrush();
-		return c;
+		long startTime = (new Date()).getTime();
+		canvas = new Canvas();
+		for (int i = 0; i < 15; i++)
+		{
+			grow();
+			if (getRGB() == Canvas.getARGBValue(200, 0, 0, 100))
+			{
+				canvas.setBrushColour(Canvas.getARGBValue(200, 0, 0, 200));
+				setRGB(Canvas.getARGBValue(201, 0, 0, 200));
+				grow();
+			}
+			else if (getRGB() == Canvas.getARGBValue(200, 0, 0, 200))
+			{
+				canvas.setBrushColour(Canvas.getARGBValue(200, 0, 0, 100));
+				setRGB(Canvas.getARGBValue(200, 0, 0, 100));
+				grow();
+			}
+			else if (getRGB() == Canvas.getARGBValue(201, 0, 0, 200))
+			{
+				canvas.setBrushColour(Canvas.getARGBValue(200, 0, 0, 200));
+				setRGB(Canvas.getARGBValue(200, 0, 0, 200));
+				grow();
+			}
+		}
+		long endTime = (new Date()).getTime();
+		long elapsedTime = endTime - startTime;
+//		System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
 	}
 
-	public void moveBrush(/*int angle, int magnitude*/)
-	{
-		c.drawCentredCluster(cluster);
+	public Canvas getCanvas() {
+		return canvas;
+	}
+
+	private int getRGB() {
+		return rgb;
+	}
+
+	private void setRGB(int rgb) {
+		this.rgb = rgb;
 	}
 	
-	public void makeSymmetrical(int x, int y)
+	private void grow()
 	{
-		c.drawPoint(x, y);
-		c.drawPoint(x, c.getyLength() -y);
-		c.drawPoint(c.getxLength() -x, y);
-		c.drawPoint(c.getxLength() -x, c.getyLength() -y);
+		canvas.drawCentredCluster(new XMirror(new FullyRandom(500,500)));
+	}
+	
+	public static void pause(int ms)
+	{
+		try {
+			Thread.sleep(ms);
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
 	}
 }
