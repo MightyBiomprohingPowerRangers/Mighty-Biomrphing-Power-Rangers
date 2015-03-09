@@ -19,5 +19,4 @@ public class FullyRandom extends Unique {
 			points.add(new ClusterPoint(x, y));
 		}
 	}
-
 }

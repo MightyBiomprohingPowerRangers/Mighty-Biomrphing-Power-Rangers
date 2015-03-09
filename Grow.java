@@ -7,7 +7,7 @@ public class Grow
 	private Canvas canvas;
 	private int rgb = Canvas.getARGBValue(200, 0, 0, 200);
 	private int complexity = 5;
-	private int length = 100;
+	private int length = 5;
 	private int height = 5;
 	private int width = 5;
 
