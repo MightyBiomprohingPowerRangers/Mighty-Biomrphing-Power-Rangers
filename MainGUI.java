@@ -32,7 +32,7 @@ public class MainGUI extends JFrame
 	
 	private ArrayList<JSlider> sliders;
 	private ArrayList<JLabel> sliderLabels;
-	private int noSliders = 2;
+	private int noSliders = 4;
 
 	public MainGUI() 
 	{
@@ -122,6 +122,8 @@ public class MainGUI extends JFrame
 		historyImages.get(0).setIcon(new ImageIcon(grow.getCanvas().getScaledImage(200, 200)));
 		grow.setComplexity(sliders.get(0).getValue());
 		grow.setLength(sliders.get(1).getValue());
+		grow.setHeight(sliders.get(2).getValue());
+		grow.setWidth(sliders.get(3).getValue());
 		grow.generate();
 		currentImage.setIcon(new ImageIcon(grow.getCanvas().getImg()));
 		
@@ -148,7 +150,9 @@ public class MainGUI extends JFrame
 	{
 		sliderLabels = new ArrayList<JLabel>();
 		sliderLabels.add(createSliderLabels("Complexity"));
-		sliderLabels.add(createSliderLabels("Length"));
+		sliderLabels.add(createSliderLabels("Limb Length"));
+		sliderLabels.add(createSliderLabels("Height"));
+		sliderLabels.add(createSliderLabels("Width"));
 		
 		sliders = new ArrayList<JSlider>();
 		for (int i = 0; i < noSliders; i++)

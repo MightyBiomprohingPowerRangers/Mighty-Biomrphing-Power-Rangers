@@ -8,6 +8,8 @@ public class Grow
 	private int rgb = Canvas.getARGBValue(200, 0, 0, 200);
 	private int complexity = 5;
 	private int length = 100;
+	private int height = 5;
+	private int width = 5;
 
 	public Grow() 
 	{
@@ -62,12 +64,20 @@ public class Grow
 	}
 	
 	public void setLength(int length) {
-		this.length = length*100;
+		this.length = length;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
 	}
 
 	private void grow()
 	{
-		canvas.drawCentredCluster(new XMirror(new FullyRandom(500,500,length)));
+		canvas.drawCentredCluster(new XMirror(new FullyRandom(500,500,length, height, width)));
 	}
 	
 	public static void pause(int ms)
