@@ -4,9 +4,9 @@ import java.util.Random;
 
 public class FullyRandom extends Unique {
 
-	public FullyRandom(int maxX, int maxY, int length, int height, int width) {
+	public FullyRandom(int maxX, int maxY, int length, int height, int width, long seed) {
 		super(maxX, maxY);
-		Random r = new Random();
+		Random r = new Random(seed);
 		int x = 0;
 		int y = 0;
 		for (int i = 1; i < length*100 + 1; i++)

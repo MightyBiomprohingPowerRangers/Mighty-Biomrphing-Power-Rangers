@@ -32,7 +32,11 @@ public class MainGUI extends JFrame
 	
 	private ArrayList<JSlider> sliders;
 	private ArrayList<JLabel> sliderLabels;
-	private int noSliders = 4;
+	private int noSliders = 5;
+	private JLabel seedLabel;
+	private JTextField seedField;
+	
+	private long currentSeed = 5;
 
 	public MainGUI() 
 	{
@@ -124,6 +128,11 @@ public class MainGUI extends JFrame
 		grow.setLength(sliders.get(1).getValue());
 		grow.setHeight(sliders.get(2).getValue());
 		grow.setWidth(sliders.get(3).getValue());
+		if (sliders.get(4).getValue() != currentSeed)
+		{
+			grow.setSeed(sliders.get(4).getValue());
+			currentSeed = sliders.get(4).getValue();
+		}
 		grow.generate();
 		currentImage.setIcon(new ImageIcon(grow.getCanvas().getImg()));
 		
@@ -153,10 +162,19 @@ public class MainGUI extends JFrame
 		sliderLabels.add(createSliderLabels("Limb Length"));
 		sliderLabels.add(createSliderLabels("Height"));
 		sliderLabels.add(createSliderLabels("Width"));
+		sliderLabels.add(createSliderLabels("Seed"));
 		
 		sliders = new ArrayList<JSlider>();
 		for (int i = 0; i < noSliders; i++)
 			sliders.add(createSlider());
+		
+//		seedLabel = new JLabel();
+//		seedLabel.setText("Seed");
+//		seedLabel.setPreferredSize(new Dimension(310, 20));
+//		
+//		seedField = new JTextField();
+//		seedField.setText("" + seed);
+//		seedField.setPreferredSize(new Dimension(300, 20));
 	}
 	
 	private JLabel createSliderLabels(String label)
@@ -212,6 +230,8 @@ public class MainGUI extends JFrame
 			centerPane.add(sliderLabels.get(i));
 			centerPane.add(sliders.get(i));
 		}
+//		centerPane.add(seedLabel);
+//		centerPane.add(seedField);
 		
 		centerPane.add(generateButton);
 		centerPane.add(saveButton);

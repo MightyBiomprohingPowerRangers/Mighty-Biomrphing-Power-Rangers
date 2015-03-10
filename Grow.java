@@ -1,6 +1,7 @@
 package MBPR;
 
 import java.util.Date;
+import java.util.Random;
 
 public class Grow
 {
@@ -10,10 +11,13 @@ public class Grow
 	private int length = 5;
 	private int height = 5;
 	private int width = 5;
+	private long initialSeed = 5;
+	Random r;
 
 	public Grow() 
 	{
 		generate();
+		r = new Random(initialSeed);
 	}
 	
 	public void generate()
@@ -59,25 +63,39 @@ public class Grow
 		this.rgb = rgb;
 	}
 	
-	public void setComplexity(int complexity) {
+	public void setComplexity(int complexity) 
+	{
 		this.complexity = complexity;
 	}
 	
-	public void setLength(int length) {
+	public void setLength(int length) 
+	{
 		this.length = length;
 	}
 
-	public void setHeight(int height) {
+	public void setHeight(int height) 
+	{
 		this.height = height;
 	}
 
-	public void setWidth(int width) {
+	public void setWidth(int width) 
+	{
 		this.width = width;
 	}
-
+	
+	public void setSeed(long seed)
+	{
+		r.setSeed(seed);
+	}
+	
 	private void grow()
 	{
-		canvas.drawCentredCluster(new XMirror(new FullyRandom(500,500,length, height, width)));
+		try {
+			canvas.drawCentredCluster(new XMirror(new FullyRandom(500,500,length, height, width, r.nextLong())));
+		} catch (NullPointerException name) {
+
+		}
+//		canvas.drawCentredCluster(new XMirror(new FullyRandom(500,500,length, height, width, r.nextLong())));
 	}
 	
 	public static void pause(int ms)
