@@ -11,19 +11,25 @@ public class Grow
 	private int length = 5;
 	private int height = 5;
 	private int width = 5;
-	private long initialSeed = 5;
+	private long seed = 5;
+	private double angle = 1.5;
+	private double minAngle = 0.1;
+	private double maxAngle = 1.2;
+	private int mutateCounter = 0;
+	private int[] previousGenes = {complexity, length, height, width, (int) seed};
+	private int[] newGenes;
 	Random r;
 
 	public Grow() 
 	{
 		generate();
-		r = new Random(initialSeed);
+		r = new Random(seed);
 	}
 	
 	public void generate()
 	{
 		long startTime = (new Date()).getTime();
-		canvas = new Canvas();
+		canvas = new Canvas(1000, 1000);
 		for (int i = 0; i < complexity; i++)
 		{
 			grow();
@@ -81,6 +87,7 @@ public class Grow
 	public void setWidth(int width) 
 	{
 		this.width = width;
+		this.angle = width;
 	}
 	
 	public void setSeed(long seed)
@@ -88,16 +95,65 @@ public class Grow
 		r.setSeed(seed);
 	}
 	
+	public void setGenes(int[] genes)
+	{
+		complexity = genes[0];
+		length = genes[1];
+		height = genes[2];
+		width = genes[3];
+		seed = genes[4];
+	}
+	
 	private void grow()
 	{
 		try {
-			canvas.drawCentredCluster(new XMirror(new FullyRandom(500,500,length, height, width, r.nextLong())));
+//			canvas.drawCentredCluster(new XMirror(new Unique(canvas.getxLength(),canvas.getyLength(),length, height, angle, minAngle, maxAngle, r.nextLong())));
+			canvas.drawCentredCluster(new XMirror(new Unique(canvas.getxLength(),canvas.getyLength(),length, height, width, r.nextLong())));
 		} catch (NullPointerException name) {
 
 		}
-//		canvas.drawCentredCluster(new XMirror(new FullyRandom(500,500,length, height, width, r.nextLong())));
+//		canvas.drawCentredCluster(new XMirror(new Unique(500,500,length, height, width, r.nextLong())));
 	}
 	
+	public void mutate()
+	{
+		Random r = new Random();
+		int rand = r.nextInt(2)*2 - 1;
+		if (mutateCounter == 0)
+		{
+			complexity += rand;
+			mutateCounter++;
+		}
+		else if (mutateCounter == 1)
+		{
+			length += rand;
+			mutateCounter++;
+		}
+		else if (mutateCounter == 2)
+		{
+			height += rand;
+			mutateCounter++;
+		}
+		else if (mutateCounter == 3)
+		{
+			width += rand;
+			mutateCounter++;
+		}
+		else if (mutateCounter == 4)
+		{
+			seed += rand;
+			mutateCounter = 0;
+		}
+		int[] changedGenes = {complexity, length, height, width, (int) seed};
+		newGenes = changedGenes;
+		generate();
+		setGenes(previousGenes);
+	}
+	
+	public int[] getNewGenes() {
+		return newGenes;
+	}
+
 	public static void pause(int ms)
 	{
 		try {

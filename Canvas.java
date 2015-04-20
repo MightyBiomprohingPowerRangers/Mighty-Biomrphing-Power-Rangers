@@ -6,17 +6,19 @@ import java.awt.image.BufferedImage;
 public class Canvas
 {
 	private BufferedImage img;
-	private int xLength = 500;
-	private int yLength = 500;
+	private int xLength;
+	private int yLength;
 	private int xOrigin;
 	private int yOrigin;
 	private int brushColour;
 	private int bgColour;
 
-	public Canvas() 
+	public Canvas(int xLength, int yLength) 
 	{
 		xOrigin = xLength/2;
 		yOrigin = yLength/2;
+		this.xLength = xLength;
+		this.yLength = yLength;
 		img = new BufferedImage(xLength, yLength, BufferedImage.TYPE_INT_ARGB);
 		bgColour = getARGBValue(200, 200, 0, 50);
 		drawBackground(bgColour);
@@ -87,6 +89,14 @@ public class Canvas
 
 	public BufferedImage getImg() {
 		return img;
+	}
+
+	public int getxLength() {
+		return xLength;
+	}
+
+	public int getyLength() {
+		return yLength;
 	}
 
 	public Image getScaledImage(int x, int y)
