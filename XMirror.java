@@ -14,5 +14,4 @@ public class XMirror extends Cluster {
 			}
 		}
 	}
-
 }
