@@ -9,7 +9,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MainGUI extends JFrame 
+public class GeneGUI extends JFrame 
 {
 	private Container pane;
 	
@@ -37,8 +37,14 @@ public class MainGUI extends JFrame
 	private JTextField seedField;
 	
 	private long currentSeed = 5;
+	
+	private int currentImageX = 500;
+	private int currentImageY = 500;
+	
+	private int historyImageX = 200;
+	private int historyImageY = 200;
 
-	public MainGUI() 
+	public GeneGUI() 
 	{
 		initComponents();
 	}
@@ -73,10 +79,11 @@ public class MainGUI extends JFrame
 	private void createBiomorphComponents()
 	{
 		grow = new Grow();
+		grow.generate();
 		
 		currentImage = new JLabel();
-		currentImage.setIcon(new ImageIcon(grow.getCanvas().getImg()));
-		currentImage.setPreferredSize(new Dimension(500, 500));
+		currentImage.setIcon(new ImageIcon(grow.getCanvas().getScaledImage(currentImageX,currentImageY)));
+		currentImage.setPreferredSize(new Dimension(currentImageX, currentImageY));
 		
 		historyImages = new ArrayList<JLabel>();
 		for (int i = 0; i < 3; i++)
@@ -84,7 +91,7 @@ public class MainGUI extends JFrame
 		for (JLabel label: historyImages)
 			label.setIcon(null);
 		for (JLabel label: historyImages)
-			label.setPreferredSize(new Dimension(200, 200));
+			label.setPreferredSize(new Dimension(historyImageX, historyImageY));
 		
 		redrawTime = new JLabel();
 		redrawTime.setText("Time:");
@@ -101,7 +108,7 @@ public class MainGUI extends JFrame
 		generateButton.setText("Generate");
 		generateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				generateButtonActionPerformed(evt);
+				createNewBiomorph(evt);
 			}
 		});
 		generateButton.setPreferredSize(new Dimension(100, 20));
@@ -116,25 +123,24 @@ public class MainGUI extends JFrame
 		saveButton.setPreferredSize(new Dimension(100, 20));
 	}
 	
-	private void generateButtonActionPerformed(ActionEvent evt) 
+	private void createNewBiomorph(ActionEvent evt) 
 	{
 		long startTime = (new Date()).getTime();
 		
 		
 		for (int i = 2; i > 0; i--)
 			historyImages.get(i).setIcon(historyImages.get(i-1).getIcon());
-		historyImages.get(0).setIcon(new ImageIcon(grow.getCanvas().getScaledImage(200, 200)));
+		historyImages.get(0).setIcon(new ImageIcon(grow.getCanvas().getScaledImage(historyImageX, historyImageY)));
 		grow.setComplexity(sliders.get(0).getValue());
 		grow.setLength(sliders.get(1).getValue());
 		grow.setHeight(sliders.get(2).getValue());
 		grow.setWidth(sliders.get(3).getValue());
-		if (sliders.get(4).getValue() != currentSeed)
-		{
+//		if (sliders.get(4).getValue() != currentSeed)
+//		{
 			grow.setSeed(sliders.get(4).getValue());
-			currentSeed = sliders.get(4).getValue();
-		}
+//		}
 		grow.generate();
-		currentImage.setIcon(new ImageIcon(grow.getCanvas().getImg()));
+		currentImage.setIcon(new ImageIcon(grow.getCanvas().getScaledImage(currentImageX,currentImageY)));
 		
 		
 		long endTime = (new Date()).getTime();
@@ -165,16 +171,11 @@ public class MainGUI extends JFrame
 		sliderLabels.add(createSliderLabels("Seed"));
 		
 		sliders = new ArrayList<JSlider>();
-		for (int i = 0; i < noSliders; i++)
-			sliders.add(createSlider());
-		
-//		seedLabel = new JLabel();
-//		seedLabel.setText("Seed");
-//		seedLabel.setPreferredSize(new Dimension(310, 20));
-//		
-//		seedField = new JTextField();
-//		seedField.setText("" + seed);
-//		seedField.setPreferredSize(new Dimension(300, 20));
+			sliders.add(createSlider(10, 0, 5, 5, 1));
+			sliders.add(createSlider(10, 0, 5, 5, 1));
+			sliders.add(createSlider(8, 2, 5, 2, 1));
+			sliders.add(createSlider(8, 2, 5, 2, 1));
+			sliders.add(createSlider(10, 0, 5, 5, 1));
 	}
 	
 	private JLabel createSliderLabels(String label)
@@ -186,14 +187,14 @@ public class MainGUI extends JFrame
 		return sliderLabel;
 	}
 	
-	private JSlider createSlider()
+	private JSlider createSlider(int max, int min, int val, int maj, int mn)
 	{
 		JSlider slider = new JSlider();
-		slider.setMaximum(10);
-		slider.setMinimum(0);
-		slider.setValue(5);
-		slider.setMajorTickSpacing(5);
-		slider.setMinorTickSpacing(1);
+		slider.setMaximum(max);
+		slider.setMinimum(min);
+		slider.setValue(val);
+		slider.setMajorTickSpacing(maj);
+		slider.setMinorTickSpacing(mn);
 		slider.createStandardLabels(1);
 		slider.setPaintLabels(true);
 		slider.setPaintTicks(true);
@@ -230,8 +231,6 @@ public class MainGUI extends JFrame
 			centerPane.add(sliderLabels.get(i));
 			centerPane.add(sliders.get(i));
 		}
-//		centerPane.add(seedLabel);
-//		centerPane.add(seedField);
 		
 		centerPane.add(generateButton);
 		centerPane.add(saveButton);
@@ -250,7 +249,7 @@ public class MainGUI extends JFrame
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new MainGUI().setVisible(true);
+				new GeneGUI().setVisible(true);
 			}
 		});
 
