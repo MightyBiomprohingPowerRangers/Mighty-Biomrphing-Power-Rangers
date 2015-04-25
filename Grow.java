@@ -122,22 +122,42 @@ public class Grow
 		int rand = r.nextInt(2)*2 - 1;
 		if (mutateCounter == 0)
 		{
-			complexity += rand;
+			if (complexity == 1)
+				complexity += 1;
+			else if (complexity == 10)
+				complexity -= 1;
+			else
+				complexity += rand;
 			mutateCounter++;
 		}
 		else if (mutateCounter == 1)
 		{
-			length += rand;
+			if (length == 1)
+				length += 1;
+			else if (length == 10)
+				length -= 1;
+			else
+				length += rand;
 			mutateCounter++;
 		}
 		else if (mutateCounter == 2)
 		{
-			height += rand;
+			if (height == 2)
+				height += 1;
+			else if (height == 8)
+				height -= 1;
+			else
+				height += rand;
 			mutateCounter++;
 		}
 		else if (mutateCounter == 3)
 		{
-			width += rand;
+			if (width == 2)
+				width += 1;
+			else if (width == 8)
+				width -= 1;
+			else
+				width += rand;
 			mutateCounter++;
 		}
 		else if (mutateCounter == 4)
@@ -170,6 +190,15 @@ public class Grow
 		newGenes = changedGenes;
 		generate();
 		setGenes(currentGenes);
+	}
+
+	public String getCurrentGenesString() {
+		String geneString = "";
+		for (int gene:currentGenes)
+		{
+			geneString += gene + ", ";
+		}
+		return "Genes: " + geneString;
 	}
 
 	public int[] getNewGenes() {

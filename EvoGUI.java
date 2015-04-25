@@ -16,7 +16,9 @@ public class EvoGUI extends JFrame
 	private JPanel leftPane;
 	private JPanel centerPane;
 	private JPanel rightPane;
+	private JPanel bottomPane;
 	
+	private JLabel geneLabel;
 	private Grow grow;
 	private JLabel currentImage;
 	private ArrayList<JLabel> mutatedImages;
@@ -44,6 +46,9 @@ public class EvoGUI extends JFrame
 	private void createBiomorphComponents()
 	{
 		grow = new Grow();
+		
+		geneLabel = new JLabel();
+		geneLabel.setText(grow.getCurrentGenesString());
 		
 		currentImage = new JLabel();
 		currentImage.setIcon(new ImageIcon(grow.getCanvas().getScaledImage(currentImageX,currentImageY)));
@@ -105,6 +110,7 @@ public class EvoGUI extends JFrame
 				int[] gene = genes.get(i);
 				grow.setGenes(gene);
 				grow.setCurrentGenes(gene);
+				geneLabel.setText(grow.getCurrentGenesString());
 				currentImage.setIcon(mutatedImages.get(i).getIcon());
 				for (int j = 0; j < mutatedImages.size(); j++)
 				{
@@ -126,15 +132,19 @@ public class EvoGUI extends JFrame
 		leftPane = new JPanel();
 		centerPane = new JPanel();
 		rightPane = new JPanel();
+		bottomPane = new JPanel();
 		
 		leftPane.setLayout(new BoxLayout(leftPane, BoxLayout.PAGE_AXIS));
-		pane.add(leftPane, BorderLayout.LINE_START);
+		pane.add(leftPane, BorderLayout.WEST);
 		
 		centerPane.setLayout(new BoxLayout(centerPane, BoxLayout.PAGE_AXIS));
 		pane.add(centerPane, BorderLayout.CENTER);
 		
 		rightPane.setLayout(new BoxLayout(rightPane, BoxLayout.PAGE_AXIS));
-		pane.add(rightPane, BorderLayout.LINE_END);
+		pane.add(rightPane, BorderLayout.EAST);
+		
+		bottomPane.setLayout(new BoxLayout(bottomPane, BoxLayout.PAGE_AXIS));
+		pane.add(bottomPane, BorderLayout.SOUTH);
 		
 		leftPane.add(mutatedImages.get(0));
 		leftPane.add(mutatedImages.get(1));
@@ -147,6 +157,8 @@ public class EvoGUI extends JFrame
 		rightPane.add(mutatedImages.get(5));
 		rightPane.add(mutatedImages.get(6));
 		rightPane.add(mutatedImages.get(7));
+		
+		bottomPane.add(geneLabel);
 		
 		pack();	
 	}
