@@ -46,7 +46,6 @@ public class EvoGUI extends JFrame
 		
 		createBiomorphComponents();
 		createLayout();
-		System.out.println();
 	}
 	
 	private void createBiomorphComponents()
@@ -60,6 +59,35 @@ public class EvoGUI extends JFrame
 		currentImage = new JLabel();
 		currentImage.setIcon(new ImageIcon(grow.getCanvas().getScaledImage(imageX,imageY)));
 		currentImage.setPreferredSize(new Dimension(imageX, imageY));
+		currentImage.addMouseListener(new MouseListener() {
+			public void mouseClicked(MouseEvent evt) {
+				currentImageClicked(evt);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});	
 		
 		genes = new ArrayList<int[]>();
 		
@@ -129,7 +157,18 @@ public class EvoGUI extends JFrame
 				genes = genes2;
 			}
 		}
-		
+	}
+	
+	protected void currentImageClicked(MouseEvent evt) 
+	{
+		ArrayList<int[]> genes2 = new ArrayList<int[]>();
+		for (int j = 0; j < mutatedImages.size(); j++)
+		{
+			grow.mutate();
+			genes2.add(grow.getNewGenes());
+			mutatedImages.get(j).setIcon(new ImageIcon(grow.getCanvas().getScaledImage(imageX, imageY)));
+		}
+		genes = genes2;
 	}
 
 	private void createLayout() 
