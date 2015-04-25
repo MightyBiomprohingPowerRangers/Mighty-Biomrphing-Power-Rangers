@@ -24,13 +24,19 @@ public class EvoGUI extends JFrame
 	private ArrayList<JLabel> mutatedImages;
 	private ArrayList<int[]> genes;
 	
-	private int currentImageX = 200;
-	private int currentImageY = 200;
+	private int imageX;
+	private int imageY;
 
 
 	public EvoGUI() 
 	{
 		initComponents();
+	}
+	
+	private void setImageDimensions(double scale)
+	{
+		imageX = (int) (grow.getCanvasX()*scale);
+		imageY = (int) (grow.getCanvasY()*scale);
 	}
 
 	private void initComponents() 
@@ -46,13 +52,14 @@ public class EvoGUI extends JFrame
 	private void createBiomorphComponents()
 	{
 		grow = new Grow();
+		setImageDimensions(0.1);
 		
 		geneLabel = new JLabel();
 		geneLabel.setText(grow.getCurrentGenesString());
 		
 		currentImage = new JLabel();
-		currentImage.setIcon(new ImageIcon(grow.getCanvas().getScaledImage(currentImageX,currentImageY)));
-		currentImage.setPreferredSize(new Dimension(currentImageX, currentImageY));
+		currentImage.setIcon(new ImageIcon(grow.getCanvas().getScaledImage(imageX,imageY)));
+		currentImage.setPreferredSize(new Dimension(imageX, imageY));
 		
 		genes = new ArrayList<int[]>();
 		
@@ -63,7 +70,7 @@ public class EvoGUI extends JFrame
 		{
 			grow.mutate();
 			genes.add(grow.getNewGenes());
-			label.setIcon(new ImageIcon(grow.getCanvas().getScaledImage(currentImageX,currentImageY)));
+			label.setIcon(new ImageIcon(grow.getCanvas().getScaledImage(imageX,imageY)));
 			label.addMouseListener(new MouseListener() {
 				public void mouseClicked(MouseEvent evt) {
 					mutatedImageClicked(evt);
@@ -95,7 +102,7 @@ public class EvoGUI extends JFrame
 			});	
 		}
 		for (JLabel label: mutatedImages)
-			label.setPreferredSize(new Dimension(currentImageX, currentImageY));
+			label.setPreferredSize(new Dimension(imageX, imageY));
 		
 		
 	}
@@ -116,7 +123,7 @@ public class EvoGUI extends JFrame
 				{
 					grow.mutate();
 					genes2.add(grow.getNewGenes());
-					mutatedImages.get(j).setIcon(new ImageIcon(grow.getCanvas().getScaledImage(currentImageX, currentImageY)));
+					mutatedImages.get(j).setIcon(new ImageIcon(grow.getCanvas().getScaledImage(imageX, imageY)));
 					
 				}
 				genes = genes2;

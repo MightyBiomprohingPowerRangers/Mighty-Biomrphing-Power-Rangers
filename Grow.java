@@ -6,17 +6,18 @@ import java.util.Random;
 public class Grow
 {
 	private Canvas canvas;
-	private int rgb1 = Canvas.getARGBValue(200, 0, 0, 200);
-	private int rgb2 = Canvas.getARGBValue(200, 0, 0, 100);
+	private int canvasX;
+	private int canvasY;
 
 	private int complexity = 10;
 	private int length = 5;
 	private int height = 5;
 	private int width = 5;
 	private long seed = 5;
-	private double angle = 1.5;
-	private double minAngle = 0.1;
-	private double maxAngle = 1.2;
+	
+	private int rgb1 = Canvas.getARGBValue(200, 0, 0, 200);
+	private int rgb2 = Canvas.getARGBValue(200, 0, 0, 100);
+	
 	private int mutateCounter = 0;
 	private int[] currentGenes = {complexity, length, height, width, (int) seed, rgb1, rgb2};
 	private int[] newGenes;
@@ -25,6 +26,8 @@ public class Grow
 	public Grow() 
 	{
 		r = new Random(seed);
+		canvasX = 1000;
+		canvasY = 1000;
 		generate();
 		
 	}
@@ -32,7 +35,7 @@ public class Grow
 	public void generate()
 	{
 		long startTime = (new Date()).getTime();
-		canvas = new Canvas(1000, 1000);
+		canvas = new Canvas(canvasX, canvasY);
 		for (int i = 0; i < complexity; i++)
 		{
 			if (i%2 == 0)
@@ -82,7 +85,6 @@ public class Grow
 	public void setWidth(int width) 
 	{
 		this.width = width;
-		this.angle = width;
 	}
 
 	public void setSeed(long seed)
@@ -203,6 +205,14 @@ public class Grow
 
 	public int[] getNewGenes() {
 		return newGenes;
+	}
+	
+	public int getCanvasX() {
+		return canvasX;
+	}
+
+	public int getCanvasY() {
+		return canvasY;
 	}
 
 	public static void pause(int ms)
