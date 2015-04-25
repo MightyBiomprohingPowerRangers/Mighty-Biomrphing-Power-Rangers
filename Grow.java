@@ -9,25 +9,41 @@ public class Grow
 	private int canvasX;
 	private int canvasY;
 
-	private int complexity = 10;
-	private int length = 5;
-	private int height = 5;
-	private int width = 5;
-	private long seed = 5;
+	private int complexity;
+	private int length;
+	private int height;
+	private int width;
+	private long seed;
 	
-	private int rgb1 = Canvas.getARGBValue(200, 0, 0, 200);
-	private int rgb2 = Canvas.getARGBValue(200, 0, 0, 100);
+	private int rgb1;
+	private int rgb2;
 	
 	private int mutateCounter = 0;
-	private int[] currentGenes = {complexity, length, height, width, (int) seed, rgb1, rgb2};
+	private int[] initialGenes = {10, 5, 5, 5, (int) 5, Canvas.getARGBValue(200, 0, 0, 200), Canvas.getARGBValue(200, 0, 0, 100)};
+	private int[] currentGenes;
 	private int[] newGenes;
+	
 	Random r;
 
 	public Grow() 
 	{
-		r = new Random(seed);
+		setGenes(initialGenes);
+		currentGenes = initialGenes;
 		canvasX = 1000;
 		canvasY = 1000;
+		r = new Random(seed);
+		generate();
+		
+	}
+	
+	public Grow(int complexity, int length, int height, int width, int seed, int rgb1, int rgb2) 
+	{
+		int[] tempGenes = {complexity, length, height, width, (int) seed, rgb1, rgb2};
+		setGenes(tempGenes);
+		currentGenes = tempGenes;
+		canvasX = 1000;
+		canvasY = 1000;
+		r = new Random(seed);
 		generate();
 		
 	}
