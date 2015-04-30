@@ -26,6 +26,8 @@ public class EvoGUI extends JFrame
 	
 	private int imageX;
 	private int imageY;
+	
+	private double imageScale = 0.2;
 
 
 	public EvoGUI() 
@@ -51,7 +53,7 @@ public class EvoGUI extends JFrame
 	private void createBiomorphComponents()
 	{
 		grow = new Grow();
-		setImageDimensions(0.1);
+		setImageDimensions(imageScale);
 		
 		geneLabel = new JLabel();
 		geneLabel.setText(grow.getCurrentGenesString());

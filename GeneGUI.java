@@ -30,9 +30,12 @@ public class GeneGUI extends JFrame
 	private JButton generateButton;
 	private JButton saveButton;
 	
+	private int[] initialGenes;
 	private ArrayList<JSlider> sliders;
 	private ArrayList<JLabel> sliderLabels;
 	private int noSliders = 5;
+	private ColourPicker colourPicker1;
+	private ColourPicker colourPicker2;
 	private JLabel seedLabel;
 	private JTextField seedField;
 	
@@ -79,7 +82,7 @@ public class GeneGUI extends JFrame
 	private void createBiomorphComponents()
 	{
 		grow = new Grow();
-		grow.generate();
+		initialGenes = grow.getInitialGenes();
 		
 		currentImage = new JLabel();
 		currentImage.setIcon(new ImageIcon(grow.getCanvas().getScaledImage(currentImageX,currentImageY)));
@@ -100,6 +103,8 @@ public class GeneGUI extends JFrame
 		saveTime = new JLabel();
 		saveTime.setText("Time:");
 		saveTime.setPreferredSize(new Dimension(170, 20));
+		colourPicker1 = new ColourPicker(initialGenes[5]);
+		colourPicker2 = new ColourPicker(initialGenes[6]);
 	}
 	
 	private void createButtons()
@@ -139,6 +144,8 @@ public class GeneGUI extends JFrame
 //		{
 			grow.setSeed(sliders.get(4).getValue());
 //		}
+		grow.setRgb1(colourPicker1.getColour());
+		grow.setRgb2(colourPicker2.getColour());
 		grow.generate();
 		currentImage.setIcon(new ImageIcon(grow.getCanvas().getScaledImage(currentImageX,currentImageY)));
 		
@@ -171,11 +178,11 @@ public class GeneGUI extends JFrame
 		sliderLabels.add(createSliderLabels("Seed"));
 		
 		sliders = new ArrayList<JSlider>();
-			sliders.add(createSlider(10, 0, 5, 5, 1));
-			sliders.add(createSlider(10, 0, 5, 5, 1));
-			sliders.add(createSlider(8, 2, 5, 2, 1));
-			sliders.add(createSlider(8, 2, 5, 2, 1));
-			sliders.add(createSlider(10, 0, 5, 5, 1));
+			sliders.add(createSlider(20, 1, initialGenes[0], 3, 1));
+			sliders.add(createSlider(10, 1, initialGenes[1], 3, 1));
+			sliders.add(createSlider(8, 2, initialGenes[2], 2, 1));
+			sliders.add(createSlider(8, 2, initialGenes[3], 2, 1));
+			sliders.add(createSlider(10, 0, initialGenes[4], 5, 1));
 	}
 	
 	private JLabel createSliderLabels(String label)
@@ -231,6 +238,8 @@ public class GeneGUI extends JFrame
 			centerPane.add(sliderLabels.get(i));
 			centerPane.add(sliders.get(i));
 		}
+		centerPane.add(colourPicker1);
+		centerPane.add(colourPicker2);
 		
 		centerPane.add(generateButton);
 		centerPane.add(saveButton);

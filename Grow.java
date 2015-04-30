@@ -15,6 +15,10 @@ public class Grow
 	private int width;
 	private long seed;
 	
+	public int[] getInitialGenes() {
+		return initialGenes;
+	}
+
 	private int rgb1;
 	private int rgb2;
 	
@@ -23,6 +27,14 @@ public class Grow
 	private int[] currentGenes;
 	private int[] newGenes;
 	
+	public void setRgb1(int rgb1) {
+		this.rgb1 = rgb1;
+	}
+
+	public void setRgb2(int rgb2) {
+		this.rgb2 = rgb2;
+	}
+
 	Random r;
 
 	public Grow() 
@@ -142,8 +154,6 @@ public class Grow
 		{
 			if (complexity == 1)
 				complexity += 1;
-			else if (complexity == 10)
-				complexity -= 1;
 			else
 				complexity += rand;
 			mutateCounter++;

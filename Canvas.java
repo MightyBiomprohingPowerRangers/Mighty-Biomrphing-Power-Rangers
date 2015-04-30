@@ -86,6 +86,17 @@ public class Canvas
 		green = green << 8;
 		return alpha + red + green + blue;
 	}
+	
+	public static int[] getARGBarray(Integer argb)
+	{
+		String argbString = Integer.toBinaryString(argb);
+		int a = Integer.parseInt(argbString.substring(0, 8),2);
+		int r = Integer.parseInt(argbString.substring(8, 16),2);
+		int g = Integer.parseInt(argbString.substring(16, 24),2);
+		int b = Integer.parseInt(argbString.substring(24, 32),2);
+		int[] array = {a,r,g,b};
+		return array;
+	}
 
 	public BufferedImage getImg() {
 		return img;
