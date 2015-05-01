@@ -36,10 +36,6 @@ public class GeneGUI extends JFrame
 	private int noSliders = 5;
 	private ColourPicker colourPicker1;
 	private ColourPicker colourPicker2;
-	private JLabel seedLabel;
-	private JTextField seedField;
-	
-	private long currentSeed = 5;
 	
 	private int currentImageX = 500;
 	private int currentImageY = 500;

@@ -22,7 +22,7 @@ public class ColourPicker extends JPanel{
 		JColorChooser jc = new JColorChooser();
 		panel = new JPanel();
 		panel.setBackground(c1);
-		panel.setPreferredSize(new Dimension(50,50));
+		panel.setPreferredSize(new Dimension(20,20));
 
 		select = new JButton("Choose colour");
 		select.addActionListener(
@@ -38,9 +38,8 @@ public class ColourPicker extends JPanel{
 						panel.setBackground(c1);
 					}
 				});
-		add(panel, BorderLayout.CENTER);
-		add(select, BorderLayout.SOUTH);
-		setSize(425, 150);
+		add(panel, BorderLayout.NORTH);
+		add(select, BorderLayout.CENTER);
 		setVisible(true);
 	}
 

@@ -9,54 +9,44 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class EvoGUI extends JFrame 
+public class EvolutionView extends JPanel
 {
-	private Container pane;
-	
-	private JPanel leftPane;
-	private JPanel centerPane;
-	private JPanel rightPane;
-	private JPanel bottomPane;
-	
-	private JLabel geneLabel;
+	private JPanel pane;
 	private Grow grow;
 	private JLabel currentImage;
-	private ArrayList<JLabel> mutatedImages;
+	private JLabel geneLabel;
 	private ArrayList<int[]> genes;
+	private ArrayList<JLabel> mutatedImages;
 	
-	private int imageX;
-	private int imageY;
-	
-	private double imageScale = 0.2;
+	private int imageX = 200;
+	private int imageY = 200;
 
-
-	public EvoGUI() 
+	public EvolutionView() 
 	{
-		initComponents();
-	}
-	
-	private void setImageDimensions(double scale)
-	{
-		imageX = (int) (grow.getCanvasX()*scale);
-		imageY = (int) (grow.getCanvasY()*scale);
-	}
-
-	private void initComponents() 
-	{
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setTitle("Biomorph Generator");
-		
 		createBiomorphComponents();
-		createLayout();
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		pane = new JPanel(new GridLayout(3,3,3,3));
+		pane.add(mutatedImages.get(0));
+		pane.add(mutatedImages.get(3));
+		pane.add(mutatedImages.get(5));
+		pane.add(mutatedImages.get(1));
+		pane.add(currentImage);
+		pane.add(mutatedImages.get(6));
+		pane.add(mutatedImages.get(2));
+		pane.add(mutatedImages.get(4));
+		pane.add(mutatedImages.get(7));
+		add(pane);
+		add(geneLabel);
 	}
 	
 	private void createBiomorphComponents()
 	{
 		grow = new Grow();
-		setImageDimensions(imageScale);
+//		setImageDimensions(imageScale);
 		
 		geneLabel = new JLabel();
 		geneLabel.setText(grow.getCurrentGenesString());
+		geneLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		currentImage = new JLabel();
 		currentImage.setIcon(new ImageIcon(grow.getCanvas().getScaledImage(imageX,imageY)));
@@ -135,6 +125,18 @@ public class EvoGUI extends JFrame
 			label.setPreferredSize(new Dimension(imageX, imageY));
 	}
 	
+	protected void currentImageClicked(MouseEvent evt) 
+	{
+		ArrayList<int[]> genes2 = new ArrayList<int[]>();
+		for (int j = 0; j < mutatedImages.size(); j++)
+		{
+			grow.mutate();
+			genes2.add(grow.getNewGenes());
+			mutatedImages.get(j).setIcon(new ImageIcon(grow.getCanvas().getScaledImage(imageX, imageY)));
+		}
+		genes = genes2;
+	}
+	
 	protected void mutatedImageClicked(MouseEvent evt) 
 	{
 		ArrayList<int[]> genes2 = new ArrayList<int[]>();
@@ -158,71 +160,5 @@ public class EvoGUI extends JFrame
 			}
 		}
 	}
-	
-	protected void currentImageClicked(MouseEvent evt) 
-	{
-		ArrayList<int[]> genes2 = new ArrayList<int[]>();
-		for (int j = 0; j < mutatedImages.size(); j++)
-		{
-			grow.mutate();
-			genes2.add(grow.getNewGenes());
-			mutatedImages.get(j).setIcon(new ImageIcon(grow.getCanvas().getScaledImage(imageX, imageY)));
-		}
-		genes = genes2;
-	}
 
-	private void createLayout() 
-	{
-		pane = getContentPane();
-		
-		leftPane = new JPanel();
-		centerPane = new JPanel();
-		rightPane = new JPanel();
-		bottomPane = new JPanel();
-		
-		leftPane.setLayout(new BoxLayout(leftPane, BoxLayout.PAGE_AXIS));
-		pane.add(leftPane, BorderLayout.WEST);
-		
-		centerPane.setLayout(new BoxLayout(centerPane, BoxLayout.PAGE_AXIS));
-		pane.add(centerPane, BorderLayout.CENTER);
-		
-		rightPane.setLayout(new BoxLayout(rightPane, BoxLayout.PAGE_AXIS));
-		pane.add(rightPane, BorderLayout.EAST);
-		
-		bottomPane.setLayout(new BoxLayout(bottomPane, BoxLayout.PAGE_AXIS));
-		pane.add(bottomPane, BorderLayout.SOUTH);
-		
-		leftPane.add(mutatedImages.get(0));
-		leftPane.add(mutatedImages.get(1));
-		leftPane.add(mutatedImages.get(2));
-		
-		centerPane.add(mutatedImages.get(3));
-		centerPane.add(currentImage);
-		centerPane.add(mutatedImages.get(4));
-		
-		rightPane.add(mutatedImages.get(5));
-		rightPane.add(mutatedImages.get(6));
-		rightPane.add(mutatedImages.get(7));
-		
-		bottomPane.add(geneLabel);
-		
-		pack();	
-	}
-
-	public static void main(String args[]) 
-	{
-		long startTime = (new Date()).getTime();
-		
-		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new EvoGUI().setVisible(true);
-			}
-		});
-
-		
-		long endTime = (new Date()).getTime();
-		long elapsedTime = endTime - startTime;
-//		System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
-	}
 }
