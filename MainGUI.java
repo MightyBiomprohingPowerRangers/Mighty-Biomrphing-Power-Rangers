@@ -29,7 +29,7 @@ public class MainGUI extends JFrame {
 	
 	private boolean hofShowing = true;
 	private BasicArrowButton openHoFButton;
-	private JPanel hallOfFame;
+	private HallOfFame hallOfFame;
 
 	public MainGUI() 
 	{
@@ -43,9 +43,7 @@ public class MainGUI extends JFrame {
 			}
 		});
 		
-		hallOfFame = new JPanel();
-		hallOfFame.setBackground(new Color(0, 200, 0, 200));
-		hallOfFame.setPreferredSize(new Dimension(300, 600));
+		hallOfFame = new HallOfFame();
 		
 		pane = getContentPane();
 		
