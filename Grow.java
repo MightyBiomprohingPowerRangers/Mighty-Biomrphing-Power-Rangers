@@ -48,9 +48,8 @@ public class Grow
 		
 	}
 	
-	public Grow(int complexity, int length, int height, int width, int seed, int rgb1, int rgb2) 
+	public Grow(int[] tempGenes) 
 	{
-		int[] tempGenes = {complexity, length, height, width, (int) seed, rgb1, rgb2};
 		setGenes(tempGenes);
 		currentGenes = tempGenes;
 		canvasX = 1000;
@@ -81,6 +80,10 @@ public class Grow
 		long endTime = (new Date()).getTime();
 		long elapsedTime = endTime - startTime;
 		//		System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
+	}
+
+	public int[] getCurrentGenes() {
+		return currentGenes;
 	}
 
 	public Canvas getCanvas() {
@@ -148,6 +151,8 @@ public class Grow
 
 	public void mutate()
 	{
+		setSeed(currentGenes[4]);
+		setGenes(currentGenes);
 		Random r = new Random();
 		int rand = r.nextInt(2)*2 - 1;
 		if (mutateCounter == 0)
@@ -180,6 +185,32 @@ public class Grow
 		}
 		else if (mutateCounter == 3)
 		{
+			if (complexity == 1)
+				complexity += 1;
+			else
+				complexity += rand;
+			rgb1 = Canvas.getARGBValue(r.nextInt(256), r.nextInt(256), r.nextInt(256), r.nextInt(256));
+			mutateCounter++;
+		}
+		else if (mutateCounter == 4)
+		{
+			seed += rand;
+			setSeed(seed);
+			mutateCounter++;
+		}
+		else if (mutateCounter == 5)
+		{
+			if (length == 1)
+				length += 1;
+			else if (length == 10)
+				length -= 1;
+			else
+				length += rand;
+			rgb2 = Canvas.getARGBValue(r.nextInt(256), r.nextInt(256), r.nextInt(256), r.nextInt(256));
+			mutateCounter++;
+		}
+		else if (mutateCounter == 6)
+		{
 			if (width == 2)
 				width += 1;
 			else if (width == 8)
@@ -188,12 +219,7 @@ public class Grow
 				width += rand;
 			mutateCounter++;
 		}
-		else if (mutateCounter == 4)
-		{
-			seed += rand;
-			mutateCounter++;
-		}
-		else if (mutateCounter == 5)
+		else if (mutateCounter == 7)
 		{
 			if (rand == -1)
 			{
@@ -203,14 +229,6 @@ public class Grow
 			{
 				rgb2 = Canvas.getARGBValue(r.nextInt(256), r.nextInt(256), r.nextInt(256), r.nextInt(256));
 			}
-			mutateCounter++;
-		}
-		else if (mutateCounter == 6)
-		{
-			mutateCounter++;
-		}
-		else if (mutateCounter == 7)
-		{
 			mutateCounter = 0;
 		}
 		

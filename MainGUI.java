@@ -7,13 +7,17 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.plaf.basic.BasicArrowButton;
@@ -30,8 +34,10 @@ public class MainGUI extends JFrame {
 	private boolean hofShowing = true;
 	private BasicArrowButton openHoFButton;
 	private HallOfFame hallOfFame;
+	private EvolutionView evoView;
 
-	public MainGUI() 
+
+	public MainGUI() throws IOException 
 	{
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Biomorph Generator");
@@ -42,8 +48,8 @@ public class MainGUI extends JFrame {
 				openHoF(evt);
 			}
 		});
-		
 		hallOfFame = new HallOfFame();
+		evoView = new EvolutionView(this);
 		
 		pane = getContentPane();
 		
@@ -59,12 +65,17 @@ public class MainGUI extends JFrame {
 		rightPane.setLayout(new BoxLayout(rightPane, BoxLayout.PAGE_AXIS));
 		pane.add(rightPane, BorderLayout.LINE_END);
 		
-		leftPane.add(new EvolutionView());
+		leftPane.add(evoView);
 		centerPane.add(openHoFButton);
 		rightPane.add(hallOfFame);
 		pack();
 	}
 
+	public void notifyMe() throws IOException
+	{
+		hallOfFame.reCreate();
+	}
+	
 	protected void openHoF(ActionEvent evt) {
 		
 		if (hofShowing == true)
@@ -86,7 +97,12 @@ public class MainGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() 
 			{
-				new MainGUI().setVisible(true);
+				try {
+					new MainGUI().setVisible(true);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 	}
