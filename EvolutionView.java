@@ -35,6 +35,7 @@ public class EvolutionView extends JPanel
 		createCurrentImagePopupMenu();
 		createMutatedImagePopupMenu();
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		this.add(new JLabel("Biomorph Evolver"));
 		pane = new JPanel(new GridLayout(3,3));
 		pane.add(mutatedImages.get(0));
 		pane.add(mutatedImages.get(3));

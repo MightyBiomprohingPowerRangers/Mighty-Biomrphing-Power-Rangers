@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
@@ -30,7 +31,6 @@ public class HallOfFame extends JPanel {
 	private JScrollPane scrollPane;
 	private JPopupMenu popup;
 	private ArrayList<JLabel> images;
-	private HallOfFame hof;
 
 
 	private int imageX = 250;
@@ -46,6 +46,7 @@ public class HallOfFame extends JPanel {
 		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 		this.setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(271,600));
+		this.add(new JLabel("Hall Of Fame", SwingConstants.CENTER), BorderLayout.PAGE_START);
 		etchedBevel = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
 		createPopupMenu();
 		if (genes.size() > 0)

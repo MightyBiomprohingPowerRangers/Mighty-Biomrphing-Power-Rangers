@@ -41,6 +41,8 @@ public class MainGUI extends JFrame {
 	{
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Biomorph Generator");
+		setPreferredSize(new Dimension(895, 671));
+		setResizable(false);
 		
 		openHoFButton = new BasicArrowButton(SwingConstants.EAST);
 		openHoFButton.addActionListener(new ActionListener() {
@@ -81,12 +83,14 @@ public class MainGUI extends JFrame {
 		if (hofShowing == true)
 		{
 			rightPane.remove(hallOfFame);
+			setPreferredSize(new Dimension(623, 671));
 			pack();
 			hofShowing = false;
 		}
 		else if (hofShowing == false)
 		{
 			rightPane.add(hallOfFame);
+			setPreferredSize(new Dimension(895, 671));
 			pack();
 			hofShowing = true;
 		}
