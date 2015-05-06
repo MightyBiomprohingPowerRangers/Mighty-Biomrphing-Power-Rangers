@@ -19,7 +19,6 @@ public class EvolutionView extends JPanel
 	private Grow grow;
 	private JLabel currentImage;
 	private int[] currentGene;
-	private JLabel geneLabel;
 	private ArrayList<int[]> genes;
 	private ArrayList<JLabel> mutatedImages;
 	private JPopupMenu cPopup;
@@ -48,7 +47,6 @@ public class EvolutionView extends JPanel
 		pane.add(mutatedImages.get(4));
 		pane.add(mutatedImages.get(7));
 		add(pane);
-		add(geneLabel);
 	}
 
 	private void createBiomorphComponents()
@@ -56,10 +54,6 @@ public class EvolutionView extends JPanel
 		grow = new Grow();
 		currentGene = grow.getCurrentGenes();
 		//		setImageDimensions(imageScale);
-
-		geneLabel = new JLabel();
-		geneLabel.setText(grow.getCurrentGenesString());
-		geneLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		Border etchedBevel = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
 		currentImage = new JLabel();
 		currentImage.setBorder(etchedBevel);
@@ -162,8 +156,15 @@ public class EvolutionView extends JPanel
 					ArrayList<int[]> newhof = new Recall().getList();
 					temp.add(currentGene);
 					temp.addAll(newhof);
-					new Store(temp);
-					gui.notifyMeHOF();
+					if (temp.size() > 10)
+					{
+						JOptionPane.showMessageDialog((Component)gui, "Hall Of Fame limit reached. Remove an image from the Hall Of Fame to make room for another", "Error", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else 
+					{
+						new Store(temp);
+						gui.notifyMeHOF();
+					}
 				} 
 				catch (IOException e) 
 				{
@@ -173,7 +174,7 @@ public class EvolutionView extends JPanel
 
 		});
 		cPopup.add(menuItem);
-		menuItem = new JMenuItem("Save");
+		menuItem = new JMenuItem("Save to file");
 		menuItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -210,6 +211,11 @@ public class EvolutionView extends JPanel
 							ArrayList<int[]> newhof = new Recall().getList();
 							temp.add(gene);
 							temp.addAll(newhof);
+							if (temp.size() > 10)
+							{
+								JOptionPane.showMessageDialog((Component)gui, "Hall Of Fame limit reached. Remove an image from the Hall Of Fame to make room for another", "Error", JOptionPane.INFORMATION_MESSAGE);
+								break;
+							}
 							new Store(temp);
 							gui.notifyMeHOF();
 						} 
@@ -223,7 +229,7 @@ public class EvolutionView extends JPanel
 
 		});
 		mPopup.add(menuItem);
-		menuItem = new JMenuItem("Save");
+		menuItem = new JMenuItem("Save to file");
 		menuItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -273,7 +279,6 @@ public class EvolutionView extends JPanel
 				grow.setGenes(gene);
 				grow.setCurrentGenes(gene);
 				currentGene = gene;
-				geneLabel.setText(grow.getCurrentGenesString());
 				currentImage.setIcon(mutatedImages.get(i).getIcon());
 				for (int j = 0; j < mutatedImages.size(); j++)
 				{
@@ -285,6 +290,22 @@ public class EvolutionView extends JPanel
 				genes = tempGenes;
 			}
 		}
+	}
+
+	public void loadFromHof(int[] gene)
+	{
+		ArrayList<int[]> tempGenes = new ArrayList<int[]>();
+		grow = new Grow(gene);
+		currentGene = gene;
+		currentImage.setIcon(new ImageIcon(grow.getCanvas().getScaledImage(imageX, imageY)));
+		for (int j = 0; j < mutatedImages.size(); j++)
+		{
+			grow.mutate();
+			tempGenes.add(grow.getNewGenes());
+			mutatedImages.get(j).setIcon(new ImageIcon(grow.getCanvas().getScaledImage(imageX, imageY)));
+
+		}
+		genes = tempGenes;
 	}
 
 }

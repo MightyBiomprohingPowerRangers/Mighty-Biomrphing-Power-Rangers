@@ -15,13 +15,18 @@ public class Store
 		{
 			f.createNewFile();
 		}
-		PrintWriter writer;
-		writer = new PrintWriter("hof.txt", "UTF-8");
-		for (int[] gene:genes)
+		if (genes.size() < 11)
 		{
-			String temp = "b" + gene[0] + "a" + gene[1] + "a" + gene[2] + "a" + gene[3] + "a" + gene[4] + "a" + gene[5] + "a" + gene[6] + "b";
-			writer.println(temp);
+			PrintWriter writer;
+			writer = new PrintWriter("hof.txt", "UTF-8");
+			for (int i = 0; i < genes.size(); i++)
+			{
+				int[] gene = genes.get(i);
+				String temp = "b" + gene[0] + "a" + gene[1] + "a" + gene[2] + "a" + gene[3] + "a" + gene[4] + "a" + gene[5] + "a" + gene[6] + "b";
+				writer.println(temp);
+			}	
+			writer.close();
 		}
-		writer.close();
+
 	}
 }

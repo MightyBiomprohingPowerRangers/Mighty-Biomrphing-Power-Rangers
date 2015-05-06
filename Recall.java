@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Recall {
 
 	private ArrayList<int[]> list;
+	private int counter = 0;
 
 	public Recall() throws IOException {
 		list = new ArrayList<int[]>();
@@ -21,6 +22,10 @@ public class Recall {
 		boolean finished = false;
 		while (finished == false)
 		{
+			if (counter >= 10)
+			{
+				break;
+			}
 			String line = r.readLine();
 			if (line != null)
 			{
@@ -31,6 +36,7 @@ public class Recall {
 					int[] ints = {Integer.parseInt(strings[1]),Integer.parseInt(strings[2]),Integer.parseInt(strings[3]),Integer.parseInt(strings[4]),
 							Integer.parseInt(strings[5]),Integer.parseInt(strings[6]),Integer.parseInt(strings[7])};
 					list.add(ints);
+					counter++;
 				}
 			}
 			else 
@@ -41,7 +47,6 @@ public class Recall {
 
 	public ArrayList<int[]> getList() 
 	{
-//		for (int i = list.size())
 		return list;
 	}
 }

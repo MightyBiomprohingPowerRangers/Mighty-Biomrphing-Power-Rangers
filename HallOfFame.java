@@ -115,7 +115,7 @@ public class HallOfFame extends JPanel {
 	private void createPopupMenu()
 	{
 		popup = new JPopupMenu();
-		JMenuItem menuItem = new JMenuItem("Remove");
+		JMenuItem menuItem = new JMenuItem("Remove from hall of fame");
 		menuItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -148,7 +148,7 @@ public class HallOfFame extends JPanel {
 
 		});
 		popup.add(menuItem);
-		menuItem = new JMenuItem("Save");
+		menuItem = new JMenuItem("Save to file");
 		menuItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -158,6 +158,21 @@ public class HallOfFame extends JPanel {
 					if (popup.getInvoker() == images.get(i))
 					{
 						new Save(new Grow(genes.get(i)).getCanvas().getImg(), gui);
+					}
+				}
+			}
+		});
+		popup.add(menuItem);
+		menuItem = new JMenuItem("Open in Biomorph Evolver");
+		menuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				for (int i = 0; i < images.size(); i++)
+				{
+					if (popup.getInvoker() == images.get(i))
+					{
+						gui.notifyMeEvo(genes.get(i));
 					}
 				}
 			}

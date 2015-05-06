@@ -41,7 +41,7 @@ public class MainGUI extends JFrame {
 	{
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setTitle("Biomorph Generator");
-		setPreferredSize(new Dimension(895, 671));
+		setPreferredSize(new Dimension(895, 661));
 		setResizable(false);
 		
 		openHoFButton = new BasicArrowButton(SwingConstants.EAST);
@@ -78,9 +78,9 @@ public class MainGUI extends JFrame {
 		hallOfFame.reCreate();
 	}
 	
-	public void notifyMeEvo()
+	public void notifyMeEvo(int[] gene)
 	{
-		
+		evoView.loadFromHof(gene);
 	}
 	
 	protected void openHoF(ActionEvent evt) {
@@ -88,14 +88,14 @@ public class MainGUI extends JFrame {
 		if (hofShowing == true)
 		{
 			rightPane.remove(hallOfFame);
-			setPreferredSize(new Dimension(623, 671));
+			setPreferredSize(new Dimension(623, 661));
 			pack();
 			hofShowing = false;
 		}
 		else if (hofShowing == false)
 		{
 			rightPane.add(hallOfFame);
-			setPreferredSize(new Dimension(895, 671));
+			setPreferredSize(new Dimension(895, 661));
 			pack();
 			hofShowing = true;
 		}
