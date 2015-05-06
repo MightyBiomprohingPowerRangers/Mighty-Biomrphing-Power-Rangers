@@ -31,13 +31,15 @@ public class HallOfFame extends JPanel {
 	private JScrollPane scrollPane;
 	private JPopupMenu popup;
 	private ArrayList<JLabel> images;
+	private MainGUI gui;
 
 
 	private int imageX = 250;
 	private int imageY = 250;
 
-	public HallOfFame() throws IOException 
+	public HallOfFame(MainGUI gui) throws IOException 
 	{
+		this.gui = gui;
 		genes = new Recall().getList();
 		images = new ArrayList<JLabel>();
 		imagePanel = new JPanel();
@@ -147,7 +149,19 @@ public class HallOfFame extends JPanel {
 		});
 		popup.add(menuItem);
 		menuItem = new JMenuItem("Save");
-		menuItem.addActionListener(null);
+		menuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				for (int i = 0; i < images.size(); i++)
+				{
+					if (popup.getInvoker() == images.get(i))
+					{
+						new Save(new Grow(genes.get(i)).getCanvas().getImg(), gui);
+					}
+				}
+			}
+		});
 		popup.add(menuItem);
 	}
 	

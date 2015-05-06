@@ -50,7 +50,7 @@ public class MainGUI extends JFrame {
 				openHoF(evt);
 			}
 		});
-		hallOfFame = new HallOfFame();
+		hallOfFame = new HallOfFame(this);
 		evoView = new EvolutionView(this);
 		
 		pane = getContentPane();
@@ -73,9 +73,14 @@ public class MainGUI extends JFrame {
 		pack();
 	}
 
-	public void notifyMe() throws IOException
+	public void notifyMeHOF() throws IOException
 	{
 		hallOfFame.reCreate();
+	}
+	
+	public void notifyMeEvo()
+	{
+		
 	}
 	
 	protected void openHoF(ActionEvent evt) {

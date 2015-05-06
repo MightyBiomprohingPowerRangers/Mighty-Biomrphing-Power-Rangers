@@ -8,6 +8,7 @@ import javax.swing.event.ChangeListener;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -162,7 +163,7 @@ public class EvolutionView extends JPanel
 					temp.add(currentGene);
 					temp.addAll(newhof);
 					new Store(temp);
-					gui.notifyMe();
+					gui.notifyMeHOF();
 				} 
 				catch (IOException e) 
 				{
@@ -173,7 +174,20 @@ public class EvolutionView extends JPanel
 		});
 		cPopup.add(menuItem);
 		menuItem = new JMenuItem("Save");
-		menuItem.addActionListener(null);
+		menuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				//				for (int i = 0; i < mutatedImages.size(); i++)
+				//				{
+				//					if (cPopup.getInvoker() == mutatedImages.get(i))
+				//					{
+				new Save(new Grow(currentGene).getCanvas().getImg(), gui);
+				//					}
+				//				}
+			}
+
+		});
 		cPopup.add(menuItem);
 	}
 
@@ -197,7 +211,7 @@ public class EvolutionView extends JPanel
 							temp.add(gene);
 							temp.addAll(newhof);
 							new Store(temp);
-							gui.notifyMe();
+							gui.notifyMeHOF();
 						} 
 						catch (IOException e) 
 						{
@@ -210,7 +224,19 @@ public class EvolutionView extends JPanel
 		});
 		mPopup.add(menuItem);
 		menuItem = new JMenuItem("Save");
-		menuItem.addActionListener(null);
+		menuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent evt) {
+				for (int i = 0; i < mutatedImages.size(); i++)
+				{
+					if (mPopup.getInvoker() == mutatedImages.get(i))
+					{
+						new Save(new Grow(genes.get(i)).getCanvas().getImg(), gui);
+					}
+				}
+			}
+		});
 		mPopup.add(menuItem);
 	}
 
