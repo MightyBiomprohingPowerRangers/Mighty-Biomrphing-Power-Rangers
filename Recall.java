@@ -6,6 +6,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Handles the reading of hall of fame from file
+ * @author MBPR
+ *
+ */
 public class Recall {
 
 	private ArrayList<int[]> list;

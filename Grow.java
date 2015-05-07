@@ -3,39 +3,33 @@ package MBPR;
 import java.util.Date;
 import java.util.Random;
 
+/**
+ * Handles any changes to the images and the gene system
+ * @author MBPR
+ *
+ */
 public class Grow
 {
 	private Canvas canvas;
 	private int canvasX;
 	private int canvasY;
 
+	/**
+	 * gene values
+	 */
 	private int complexity;
 	private int length;
 	private int height;
 	private int width;
 	private long seed;
-	
-	public int[] getInitialGenes() {
-		return initialGenes;
-	}
-
 	private int rgb1;
 	private int rgb2;
-	
+
 	private int mutateCounter = 0;
 	private int[] initialGenes = {10, 5, 5, 5, (int) 5, Canvas.getARGBValue(200, 0, 0, 200), Canvas.getARGBValue(200, 0, 0, 100)};
 	private int[] currentGenes;
 	private int[] newGenes;
-	
-	public void setRgb1(int rgb1) {
-		this.rgb1 = rgb1;
-	}
-
-	public void setRgb2(int rgb2) {
-		this.rgb2 = rgb2;
-	}
-
-	Random r;
+	private Random r;
 
 	public Grow() 
 	{
@@ -45,7 +39,6 @@ public class Grow
 		canvasY = 1000;
 		r = new Random(seed);
 		generate();
-		
 	}
 	
 	public Grow(int[] tempGenes) 
@@ -59,9 +52,11 @@ public class Grow
 		
 	}
 
+	/**
+	 * Draws an image based on the current genes
+	 */
 	public void generate()
 	{
-		long startTime = (new Date()).getTime();
 		canvas = new Canvas(canvasX, canvasY);
 		for (int i = 0; i < complexity; i++)
 		{
@@ -77,47 +72,64 @@ public class Grow
 			}
 
 		}
-		long endTime = (new Date()).getTime();
-		long elapsedTime = endTime - startTime;
-		//		System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
 	}
 
+	/**
+	 * returns the current genes
+	 * @return int[] genes
+	 */
 	public int[] getCurrentGenes() {
 		return currentGenes;
 	}
 
+	/**
+	 * returns the canvas
+	 * @return canvas
+	 */
 	public Canvas getCanvas() {
 		return canvas;
 	}
 
-//	private int getRGB() {
-//		return rgb;
-//	}
-//
-//	private void setRGB(int rgb) {
-//		this.rgb = rgb;
-//	}
-
+	/**
+	 * sets the complexity gene
+	 * @param complexity
+	 */
 	public void setComplexity(int complexity) 
 	{
 		this.complexity = complexity;
 	}
 
+	/**
+	 * sets the length gene
+	 * @param length
+	 */
 	public void setLength(int length) 
 	{
 		this.length = length;
 	}
 
+	/**
+	 * sets the height gene
+	 * @param height
+	 */
 	public void setHeight(int height) 
 	{
 		this.height = height;
 	}
 
+	/**
+	 * sets the width gene
+	 * @param width
+	 */
 	public void setWidth(int width) 
 	{
 		this.width = width;
 	}
 
+	/**
+	 * sets the seed gene
+	 * @param seed
+	 */
 	public void setSeed(long seed)
 	{
 		r.setSeed(seed);
@@ -126,6 +138,10 @@ public class Grow
 		setCurrentGenes(changedGenes);
 	}
 
+	/**
+	 * sets all the genes
+	 * @param genes
+	 */
 	public void setGenes(int[] genes)
 	{
 		complexity = genes[0];
@@ -137,21 +153,27 @@ public class Grow
 		rgb2 = genes[6];
 	}
 
+	/** 
+	 * sets the current genes
+	 * @param currentGenes
+	 */
 	public void setCurrentGenes(int[] currentGenes) {
 		this.currentGenes = currentGenes;
 	}
 
+	/**
+	 * draws a new image based on the current genes
+	 */
 	private void grow()
 	{
 		try {
-			//			canvas.drawCentredCluster(new XMirror(new Unique(canvas.getxLength(),canvas.getyLength(),length, height, angle, minAngle, maxAngle, r.nextLong())));
 			canvas.drawCentredCluster(new XMirror(new Unique(canvas.getxLength(),canvas.getyLength(),length, height, width, r.nextLong())));
-		} catch (NullPointerException name) {
-
-		}
-		//		canvas.drawCentredCluster(new XMirror(new Unique(500,500,length, height, width, r.nextLong())));
+		} catch (NullPointerException name) {}
 	}
 
+	/**
+	 * presents a set of children which are variations of the parent
+	 */
 	public void mutate()
 	{
 		setSeed(currentGenes[4]);
@@ -243,6 +265,10 @@ public class Grow
 		setGenes(currentGenes);
 	}
 
+	/**
+	 * returns a string containing gene information
+	 * @return String - gene
+	 */
 	public String getCurrentGenesString() {
 		String geneString = "";
 		for (int gene:currentGenes)
@@ -252,24 +278,56 @@ public class Grow
 		return "Genes: " + geneString;
 	}
 
+	/**
+	 * returns new genes
+	 * @return int[] genes
+	 */
 	public int[] getNewGenes() {
 		return newGenes;
 	}
 	
+	/**
+	 * Returns the image x size
+	 * @return int
+	 */
 	public int getCanvasX() {
 		return canvasX;
 	}
 
+	/**
+	 * returns the image y size
+	 * @return int
+	 */
 	public int getCanvasY() {
 		return canvasY;
 	}
-
-	public static void pause(int ms)
-	{
-		try {
-			Thread.sleep(ms);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
+	
+	/**
+	 * Sets the first colour
+	 * @param rgb1
+	 */
+	public void setRgb1(int rgb1) {
+		this.rgb1 = rgb1;
+		int[] changedGenes = {complexity, length, height, width, (int) this.seed, rgb1, rgb2};
+		setCurrentGenes(changedGenes);
 	}
+
+	/**
+	 * sets the second colour
+	 * @param rgb2
+	 */
+	public void setRgb2(int rgb2) {
+		this.rgb2 = rgb2;
+		int[] changedGenes = {complexity, length, height, width, (int) this.seed, rgb1, rgb2};
+		setCurrentGenes(changedGenes);
+	}
+	
+	/**
+	 * returns the initial genes
+	 * @return int[]
+	 */
+	public int[] getInitialGenes() {
+		return initialGenes;
+	}
+
 }

@@ -1,5 +1,10 @@
 package MBPR;
 
+/**
+ * Mirrors any Cluster in the X axis
+ * @author MBPR
+ *
+ */
 public class XMirror extends Cluster {
 
 	public XMirror(Unique unique) {

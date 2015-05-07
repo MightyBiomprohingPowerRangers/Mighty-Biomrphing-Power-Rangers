@@ -7,7 +7,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-
+/**
+ * A JPanel which offers the functionality of a colour picker
+ * @author MBPR
+ *
+ */
 public class ColourPicker extends JPanel{
 
 	private JButton select;
@@ -15,6 +19,10 @@ public class ColourPicker extends JPanel{
 	private JPanel panel;
 
 
+	/**
+	 * Initialises the variables and creates the Colour Picker
+	 * @param initialColour
+	 */
 	public ColourPicker(int initialColour)
 	{
 		int[] array = Canvas.getARGBarray(initialColour);
@@ -42,6 +50,10 @@ public class ColourPicker extends JPanel{
 		setVisible(true);
 	}
 
+	/**
+	 * Returns the colour as an ARGB value
+	 * @return ARGB
+	 */
 	public int getColour(){
 		return Canvas.getARGBValue(c1.getAlpha(), c1.getRed(), c1.getGreen(), c1.getBlue());
 	}

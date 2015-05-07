@@ -24,6 +24,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
+/**
+ * Creates a Panel to store the hall of fame images
+ * @author MBPR
+ *
+ */
 public class HallOfFame extends JPanel {
 
 	private JPanel imagePanel;
@@ -38,6 +43,11 @@ public class HallOfFame extends JPanel {
 	private int imageX = 250;
 	private int imageY = 250;
 
+	/**
+	 * Initialises the components
+	 * @param gui
+	 * @throws IOException
+	 */
 	public HallOfFame(MainGUI gui) throws IOException 
 	{
 		this.gui = gui;
@@ -80,6 +90,10 @@ public class HallOfFame extends JPanel {
 		this.add(scrollPane, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * creates the image components
+	 * @param gene
+	 */
 	private void createLabels(int[] gene)
 	{
 		JLabel label = new JLabel();
@@ -119,6 +133,10 @@ public class HallOfFame extends JPanel {
 		imagePanel.add(label);
 	}
 
+	/**
+	 * Resets the Hall Of Fame if  a change is made
+	 * @throws IOException
+	 */
 	public void reCreate() throws IOException
 	{
 		genes = new Recall().getList();
@@ -131,6 +149,9 @@ public class HallOfFame extends JPanel {
 		scrollPane.getViewport().add(imagePanel);
 	}
 	
+	/**
+	 * Creates a pop menu
+	 */
 	private void createPopupMenu()
 	{
 		popup = new JPopupMenu();
@@ -199,6 +220,9 @@ public class HallOfFame extends JPanel {
 		popup.add(menuItem);
 	}
 	
+	/**
+	 * shows the popup menu when an image is right clicked
+	 */
 	protected void imageRightClicked(MouseEvent evt) {
 		popup.show(evt.getComponent(), evt.getX(), evt.getY());
 

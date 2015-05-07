@@ -22,6 +22,11 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.plaf.basic.BasicArrowButton;
 
+/**
+ * Brings together all of the GUI components
+ * @author MBPR
+ *
+ */
 public class MainGUI extends JFrame {
 	
 	private Container pane;
@@ -29,14 +34,16 @@ public class MainGUI extends JFrame {
 	private JPanel leftPane;
 	private JPanel centerPane;
 	private JPanel rightPane;
-	private JPanel bottomPane;
 	
 	private boolean hofShowing = true;
 	private BasicArrowButton openHoFButton;
 	private HallOfFame hallOfFame;
 	private EvolutionView evoView;
 
-
+	/**
+	 * Initialises the components
+	 * @throws IOException
+	 */
 	public MainGUI() throws IOException 
 	{
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -73,16 +80,29 @@ public class MainGUI extends JFrame {
 		pack();
 	}
 
+	/**
+	 * Allows other gui components to notify this
+	 * @throws IOException
+	 */
 	public void notifyMeHOF() throws IOException
 	{
 		hallOfFame.reCreate();
 	}
 	
+	/**
+	 * 
+	 * Allows other gui components to notify this
+	 * @param gene
+	 */
 	public void notifyMeEvo(int[] gene)
 	{
 		evoView.loadFromHof(gene);
 	}
 	
+	/**
+	 * Handles the opening and closing of the Hall Of Fame panel
+	 * @param evt
+	 */
 	protected void openHoF(ActionEvent evt) {
 		
 		if (hofShowing == true)

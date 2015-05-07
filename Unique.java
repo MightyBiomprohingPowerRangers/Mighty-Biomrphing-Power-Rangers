@@ -2,6 +2,11 @@ package MBPR;
 
 import java.util.Random;
 
+/**
+ * Cluster implementation that can generate any cluster
+ * @author MBPR
+ *
+ */
 public class Unique extends Cluster 
 {
 	protected int maxX;

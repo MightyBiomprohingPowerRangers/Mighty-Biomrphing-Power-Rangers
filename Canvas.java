@@ -3,16 +3,47 @@ package MBPR;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
+/**
+ * Defines where the drawing should occur and creates a brush based off the Cluster implementation to draw to the BufferedImage
+ * @author MBPR
+ *
+ */
 public class Canvas
 {
+	/**
+	 * The image to be drawn to
+	 */
 	private BufferedImage img;
+	/**
+	 * The width of the BufferedImage
+	 */
 	private int xLength;
+	/**
+	 * The height of the BufferedImage
+	 */
 	private int yLength;
+	/**
+	 * The x location of the most central point and starting position of the brush
+	 */
 	private int xOrigin;
+	/**
+	 * The y location of the most central point and starting position of the brush
+	 */
 	private int yOrigin;
+	/**
+	 * Colour of the brush as an ARGB
+	 */
 	private int brushColour;
+	/**
+	 * Colour of the background as an ARGB
+	 */
 	private int bgColour;
 
+	/**
+	 * Constructor initialises all the variables, draws the background and the origin
+	 * @param xLength
+	 * @param yLength
+	 */
 	public Canvas(int xLength, int yLength) 
 	{
 		xOrigin = xLength/2;
@@ -25,27 +56,11 @@ public class Canvas
 		brushColour = getARGBValue(200, 0, 0, 200);
 		drawPoint(xOrigin,yOrigin);
 	}
-
-	private void setOrigin(int x, int y)
-	{
-		xOrigin = x;
-		yOrigin = y;
-	}
 	
-	private void drawOutline()
-	{
-		for (int x = 6; x < xLength-5; x++)
-		{
-			drawPoint(x, 6);
-			drawPoint(x, yLength-6);
-		}
-		for (int y = 6; y < xLength-5; y++)
-		{
-			drawPoint(6, y);
-			drawPoint(xLength-6, y);
-		}
-	}
-	
+	/**
+	 * Sets the colour of all the pixels to the parameter
+	 * @param rgba
+	 */
 	private void drawBackground(int rgba)
 	{
 		for (int x = 0; x < img.getWidth(); x++)
@@ -55,13 +70,22 @@ public class Canvas
 			}
 	}
 
+	/**
+	 * Sets the brush colour
+	 * @param brushColour
+	 */
 	public void setBrushColour(int brushColour) {
 		this.brushColour = brushColour;
 	}
 
+	/**
+	 * Draws a circular point at the specified x and y
+	 * @param xcoord
+	 * @param ycoord
+	 */
 	private void drawPoint(int xcoord, int ycoord)
 	{
-		Cluster cluster = new Circle(); //currently how to change the shape of the brush
+		Cluster cluster = new Circle();
 		while (cluster.hasNext())
 		{
 			ClusterPoint point = cluster.next();
@@ -69,6 +93,10 @@ public class Canvas
 		}
 	}
 	
+	/**
+	 * Draws a Cluster at the origin
+	 * @param cluster to draw
+	 */
 	public void drawCentredCluster(Cluster cluster)
 	{
 		while (cluster.hasNext())
@@ -79,6 +107,14 @@ public class Canvas
 		}
 	}
 
+	/**
+	 * Returns a single integer from 4 components
+	 * @param alpha
+	 * @param red
+	 * @param green
+	 * @param blue
+	 * @return argb
+	 */
 	public static int getARGBValue(int alpha, int red, int green, int blue)
 	{
 		alpha = alpha << 24;
@@ -87,6 +123,11 @@ public class Canvas
 		return alpha + red + green + blue;
 	}
 	
+	/**
+	 * Converts an argb value into an rgba value
+	 * @param argb
+	 * @return rgba
+	 */
 	public static int[] getARGBarray(Integer argb)
 	{
 		String argbString = Integer.toBinaryString(argb);
@@ -109,18 +150,36 @@ public class Canvas
 		return array;
 	}
 
+	/**
+	 * Returns the BufferedImage
+	 * @return BufferedImage
+	 */
 	public BufferedImage getImg() {
 		return img;
 	}
 
+	/**
+	 * Returns Width of the BufferedImage
+	 * @return xLength
+	 */
 	public int getxLength() {
 		return xLength;
 	}
 
+	/**
+	 * Returns Height of the BufferedImage
+	 * @return yLength
+	 */
 	public int getyLength() {
 		return yLength;
 	}
 
+	/**
+	 * Returns a s scaled instance of the BufferedImage
+	 * @param x - width
+	 * @param y - height
+	 * @return Image
+	 */
 	public Image getScaledImage(int x, int y)
 	{
 		return img.getScaledInstance(x, y, Image.SCALE_SMOOTH);

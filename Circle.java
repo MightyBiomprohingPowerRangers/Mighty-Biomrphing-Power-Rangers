@@ -1,7 +1,15 @@
 package MBPR;
 
+/**
+ * Type of Cluster which draws a circular set of pixels
+ * @author MBPR
+ *
+ */
 public class Circle extends Cluster 
 {
+	/**
+	 * Creates a circle around a central points
+	 */
 	public Circle() 
 	{
 		for (int xcoord = -5; xcoord < 6; xcoord++ )

@@ -13,8 +13,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Defines a panel which contains all of the evolution components
+ * @author MBPR
+ *
+ */
 public class EvolutionView extends JPanel
 {
+	
 	private JPanel pane;
 	private Grow grow;
 	private JLabel currentImage;
@@ -32,6 +38,10 @@ public class EvolutionView extends JPanel
 	private int imageX = 200;
 	private int imageY = 200;
 	
+	/**
+	 * Initialises al the variables and sets up the JPanel
+	 * @param gui
+	 */
 	public EvolutionView(MainGUI gui) 
 	{
 		this.gui = gui;
@@ -69,6 +79,9 @@ public class EvolutionView extends JPanel
 		this.add(pane, BorderLayout.PAGE_END);
 	}
 
+	/**
+	 * Creates the components required to evolve an image
+	 */
 	private void createBiomorphComponents()
 	{
 		grow = new Grow();
@@ -160,6 +173,9 @@ public class EvolutionView extends JPanel
 			label.setPreferredSize(new Dimension(imageX, imageY));
 	}
 
+	/**
+	 * Creates a Popup menu for the current image
+	 */
 	private void createCurrentImagePopupMenu()
 	{
 		cPopup = new JPopupMenu();
@@ -211,6 +227,9 @@ public class EvolutionView extends JPanel
 		cPopup.add(menuItem);
 	}
 
+	/**
+	 * Creates a popup menu for the mutatedimages
+	 */
 	private void createMutatedImagePopupMenu()
 	{
 		mPopup = new JPopupMenu();
@@ -265,16 +284,28 @@ public class EvolutionView extends JPanel
 		mPopup.add(menuItem);
 	}
 
+	/**
+	 * Shows the popup menu on mouseclick
+	 * @param evt
+	 */
 	protected void currentImageRightClicked(MouseEvent evt) {
 		cPopup.show(evt.getComponent(), evt.getX(), evt.getY());
 
 	}
 
+	/**
+	 * Shows the popup menu on mouseclick
+	 * @param evt
+	 */
 	protected void mutatedImageRightClicked(MouseEvent evt) {
 		mPopup.show(evt.getComponent(), evt.getX(), evt.getY());
 
 	}
 
+	/**
+	 * Regenerates children if parent is clicked
+	 * @param evt
+	 */
 	protected void currentImageLeftClicked(MouseEvent evt) 
 	{
 		ArrayList<int[]> tempGenes = new ArrayList<int[]>();
@@ -287,6 +318,10 @@ public class EvolutionView extends JPanel
 		genes = tempGenes;
 	}
 
+	/**
+	 * Sets parent if mutatedimage is clicked
+	 * @param evt
+	 */
 	protected void mutatedImageLeftClicked(MouseEvent evt) 
 	{
 		ArrayList<int[]> tempGenes = new ArrayList<int[]>();
@@ -311,6 +346,10 @@ public class EvolutionView extends JPanel
 		}
 	}
 
+	/**
+	 * Passes a gene to the Biomorph evolver from the Hall Of Fame
+	 * @param gene
+	 */
 	public void loadFromHof(int[] gene)
 	{
 		ArrayList<int[]> tempGenes = new ArrayList<int[]>();
@@ -327,10 +366,18 @@ public class EvolutionView extends JPanel
 		genes = tempGenes;
 	}
 	
+	/**
+	 * Returns the genes for the current image
+	 * @return gene
+	 */
 	public int[] getCurrentGene() {
 		return currentGene;
 	}
 	
+	/**
+	 * Allows other GUI components to pass values to Evolution View
+	 * @param gene
+	 */
 	public void notifyMeGene(int[] gene)
 	{
 		loadFromHof(gene);

@@ -10,6 +10,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+/**
+ * Handles the saving of images
+ * @author MBPR
+ *
+ */
 public class Save 
 {
 

@@ -9,6 +9,11 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Creates a frame which allows you to change each gene value specifically
+ * @author MBPR
+ *
+ */
 public class GeneGUI extends JFrame 
 {
 	private Container pane;
@@ -50,6 +55,10 @@ public class GeneGUI extends JFrame
 	private int historyImageY = 200;
 
 
+	/**
+	 * Initialises all the components 
+	 * @param panel
+	 */
 	public GeneGUI(EvolutionView panel) 
 	{
 		this.panel = panel;
@@ -57,6 +66,9 @@ public class GeneGUI extends JFrame
 		initComponents();
 	}
 
+	/**
+	 * helper to the initialisation
+	 */
 	private void initComponents() 
 	{
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -72,6 +84,9 @@ public class GeneGUI extends JFrame
 		createLayout();
 	}
 
+	/**
+	 * creates the labels used for presentation
+	 */
 	private void createLabels()
 	{
 		currentImageLabel = new JLabel();
@@ -87,6 +102,9 @@ public class GeneGUI extends JFrame
 		historyLabel.setPreferredSize(new Dimension(100, 20));
 	}
 	
+	/**
+	 * creates the components required to evolve an image
+	 */
 	private void createBiomorphComponents()
 	{
 		grow = new Grow(loadGenes);
@@ -115,6 +133,9 @@ public class GeneGUI extends JFrame
 		colourPicker2 = new ColourPicker(initialGenes[6]);
 	}
 	
+	/**
+	 * Creates the buttons
+	 */
 	private void createButtons()
 	{
 		generateButton = new JButton();
@@ -148,11 +169,12 @@ public class GeneGUI extends JFrame
 		biomorphEvolverButton.setPreferredSize(new Dimension(200, 20));
 	}
 	
+	/**
+	 * Resets the genes and generates the image
+	 * @param evt
+	 */
 	private void createNewBiomorph(ActionEvent evt) 
 	{
-		long startTime = (new Date()).getTime();
-		
-		
 		for (int i = 2; i > 0; i--)
 			historyImages.get(i).setIcon(historyImages.get(i-1).getIcon());
 		historyImages.get(0).setIcon(new ImageIcon(grow.getCanvas().getScaledImage(historyImageX, historyImageY)));
@@ -160,36 +182,26 @@ public class GeneGUI extends JFrame
 		grow.setLength(sliders.get(1).getValue());
 		grow.setHeight(sliders.get(2).getValue());
 		grow.setWidth(sliders.get(3).getValue());
-//		if (sliders.get(4).getValue() != currentSeed)
-//		{
-			grow.setSeed(sliders.get(4).getValue());
-//		}
+		grow.setSeed(sliders.get(4).getValue());
 		grow.setRgb1(colourPicker1.getColour());
 		grow.setRgb2(colourPicker2.getColour());
 		grow.generate();
 		loadGenes = grow.getCurrentGenes();
 		currentImage.setIcon(new ImageIcon(grow.getCanvas().getScaledImage(currentImageX,currentImageY)));
-		
-		
-		long endTime = (new Date()).getTime();
-		long elapsedTime = endTime - startTime;
-		redrawTime.setText("Generate Time: (" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
-		saveTime.setText("Save Time: (" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
-		//System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
 	}
 	
+	/**
+	 * Saves the current image
+	 * @param evt
+	 */
 	private void saveButtonActionPerformed(ActionEvent evt) 
 	{
 		new Save(new Grow(loadGenes).getCanvas().getImg(), this);
-//		long startTime = (new Date()).getTime();
-//		
-//		
-//		long endTime = (new Date()).getTime();
-//		long elapsedTime = endTime - startTime;
-//		saveTime.setText("Generate Time: (" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
-//		System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
 	}
 	
+	/**
+	 * Creates all of the slider components
+	 */
 	private void createSliders()
 	{
 		sliderLabels = new ArrayList<JLabel>();
@@ -207,6 +219,11 @@ public class GeneGUI extends JFrame
 			sliders.add(createSlider(10, 0, initialGenes[4], 5, 1));
 	}
 	
+	/**
+	 * creates presentation components for the sliders
+	 * @param label
+	 * @return
+	 */
 	private JLabel createSliderLabels(String label)
 	{
 		JLabel sliderLabel = new JLabel();
@@ -216,6 +233,15 @@ public class GeneGUI extends JFrame
 		return sliderLabel;
 	}
 	
+	/**
+	 * creates a single slider 
+	 * @param max
+	 * @param min
+	 * @param val
+	 * @param maj
+	 * @param mn
+	 * @return
+	 */
 	private JSlider createSlider(int max, int min, int val, int maj, int mn)
 	{
 		JSlider slider = new JSlider();
@@ -231,6 +257,9 @@ public class GeneGUI extends JFrame
 		return slider;
 	}
 
+	/**
+	 * adds all the components to the frame and organises it
+	 */
 	private void createLayout() 
 	{
 		pane = getContentPane();
@@ -275,21 +304,4 @@ public class GeneGUI extends JFrame
 		
 		pack();	
 	}
-
-//	public static void main(String args[]) 
-//	{
-//		long startTime = (new Date()).getTime();
-//		
-//		
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				new GeneGUI().setVisible(true);
-//			}
-//		});
-//
-//		
-//		long endTime = (new Date()).getTime();
-//		long elapsedTime = endTime - startTime;
-////		System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
-//	}
 }

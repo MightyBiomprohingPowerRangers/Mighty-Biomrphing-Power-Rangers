@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+/**
+ * Handles saving of images to hall of fame
+ * @author MBPR
+ *
+ */
 public class Store 
 {
 
