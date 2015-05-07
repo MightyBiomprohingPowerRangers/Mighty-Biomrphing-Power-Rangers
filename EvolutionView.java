@@ -24,6 +24,7 @@ public class EvolutionView extends JPanel
 	private JPopupMenu cPopup;
 	private JPopupMenu mPopup;
 	private MainGUI gui;
+	private JButton geneViewButton;
 
 	private int imageX = 200;
 	private int imageY = 200;
@@ -34,8 +35,22 @@ public class EvolutionView extends JPanel
 		createBiomorphComponents();
 		createCurrentImagePopupMenu();
 		createMutatedImagePopupMenu();
-		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		this.add(new JLabel("Biomorph Evolver"));
+		setLayout(new BorderLayout());
+		geneViewButton = new JButton("Open Gene View");
+		geneViewButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() 
+					{
+							new GeneGUI(currentGene).setVisible(true);
+					}
+				});
+			}
+		});
+		this.add(geneViewButton, BorderLayout.PAGE_START);
+		this.add(new JLabel("Biomorph Evolver", SwingConstants.CENTER), BorderLayout.CENTER);
 		pane = new JPanel(new GridLayout(3,3));
 		pane.add(mutatedImages.get(0));
 		pane.add(mutatedImages.get(3));
@@ -46,14 +61,13 @@ public class EvolutionView extends JPanel
 		pane.add(mutatedImages.get(2));
 		pane.add(mutatedImages.get(4));
 		pane.add(mutatedImages.get(7));
-		add(pane);
+		this.add(pane, BorderLayout.PAGE_END);
 	}
 
 	private void createBiomorphComponents()
 	{
 		grow = new Grow();
 		currentGene = grow.getCurrentGenes();
-		//		setImageDimensions(imageScale);
 		Border etchedBevel = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
 		currentImage = new JLabel();
 		currentImage.setBorder(etchedBevel);

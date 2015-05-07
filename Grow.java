@@ -159,6 +159,8 @@ public class Grow
 		{
 			if (complexity == 1)
 				complexity += 1;
+			else if (complexity == 20)
+				complexity -= 1;
 			else
 				complexity += rand;
 			mutateCounter++;

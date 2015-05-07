@@ -19,7 +19,6 @@ public class ColourPicker extends JPanel{
 	{
 		int[] array = Canvas.getARGBarray(initialColour);
 		c1 = new Color(array[1], array[2], array[3], array[0]);
-		JColorChooser jc = new JColorChooser();
 		panel = new JPanel();
 		panel.setBackground(c1);
 		panel.setPreferredSize(new Dimension(20,20));

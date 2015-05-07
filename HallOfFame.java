@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -32,7 +33,7 @@ public class HallOfFame extends JPanel {
 	private JPopupMenu popup;
 	private ArrayList<JLabel> images;
 	private MainGUI gui;
-
+	private JButton clearButton;
 
 	private int imageX = 250;
 	private int imageY = 250;
@@ -43,12 +44,30 @@ public class HallOfFame extends JPanel {
 		genes = new Recall().getList();
 		images = new ArrayList<JLabel>();
 		imagePanel = new JPanel();
+		clearButton = new JButton("Clear");
+		clearButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					new Store(new ArrayList<int[]>());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				images = new ArrayList<JLabel>();
+				genes = new ArrayList<int[]>();
+				imagePanel.removeAll();
+				scrollPane.getViewport().add(imagePanel);
+			}
+		});
 		imagePanel.setLayout(new BoxLayout(imagePanel, BoxLayout.PAGE_AXIS));
 		scrollPane = new JScrollPane(imagePanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 		this.setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(271,600));
 		this.add(new JLabel("Hall Of Fame", SwingConstants.CENTER), BorderLayout.PAGE_START);
+		this.add(clearButton, BorderLayout.PAGE_END);
 		etchedBevel = BorderFactory.createEtchedBorder(EtchedBorder.RAISED);
 		createPopupMenu();
 		if (genes.size() > 0)

@@ -31,27 +31,32 @@ public class GeneGUI extends JFrame
 	private JButton saveButton;
 	
 	private int[] initialGenes;
+	private int[] loadGenes;
 	private ArrayList<JSlider> sliders;
 	private ArrayList<JLabel> sliderLabels;
 	private int noSliders = 5;
 	private ColourPicker colourPicker1;
 	private ColourPicker colourPicker2;
 	
-	private int currentImageX = 500;
-	private int currentImageY = 500;
+	private int currentImageX = 480;
+	private int currentImageY = 480;
 	
 	private int historyImageX = 200;
 	private int historyImageY = 200;
 
-	public GeneGUI() 
+	public GeneGUI(int[] gene) 
 	{
+		loadGenes = gene;
 		initComponents();
 	}
 
 	private void initComponents() 
 	{
-		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Biomorph Generator");
+		
+		setPreferredSize(new Dimension(1000, 500));
+		setResizable(false);
 		
 		createLabels();
 		createBiomorphComponents();
@@ -77,8 +82,8 @@ public class GeneGUI extends JFrame
 	
 	private void createBiomorphComponents()
 	{
-		grow = new Grow();
-		initialGenes = grow.getInitialGenes();
+		grow = new Grow(loadGenes);
+		initialGenes = loadGenes;
 		
 		currentImage = new JLabel();
 		currentImage.setIcon(new ImageIcon(grow.getCanvas().getScaledImage(currentImageX,currentImageY)));
@@ -247,20 +252,20 @@ public class GeneGUI extends JFrame
 		pack();	
 	}
 
-	public static void main(String args[]) 
-	{
-		long startTime = (new Date()).getTime();
-		
-		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new GeneGUI().setVisible(true);
-			}
-		});
-
-		
-		long endTime = (new Date()).getTime();
-		long elapsedTime = endTime - startTime;
-//		System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
-	}
+//	public static void main(String args[]) 
+//	{
+//		long startTime = (new Date()).getTime();
+//		
+//		
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				new GeneGUI().setVisible(true);
+//			}
+//		});
+//
+//		
+//		long endTime = (new Date()).getTime();
+//		long elapsedTime = endTime - startTime;
+////		System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
+//	}
 }
