@@ -16,6 +16,7 @@ public class GeneGUI extends JFrame
 	private JPanel leftPane;
 	private JPanel centerPane;
 	private JPanel rightPane;
+	private JPanel buttonPane;
 	
 	private JLabel currentImageLabel;
 	private JLabel historyLabel;
@@ -29,6 +30,7 @@ public class GeneGUI extends JFrame
 	
 	private JButton generateButton;
 	private JButton saveButton;
+	private JButton biomorphEvolverButton;
 	
 	private int[] initialGenes;
 	private int[] loadGenes;
@@ -38,15 +40,20 @@ public class GeneGUI extends JFrame
 	private ColourPicker colourPicker1;
 	private ColourPicker colourPicker2;
 	
+	private EvolutionView panel;
+	private GeneGUI geneView;
+	
 	private int currentImageX = 480;
 	private int currentImageY = 480;
 	
 	private int historyImageX = 200;
 	private int historyImageY = 200;
 
-	public GeneGUI(int[] gene) 
+
+	public GeneGUI(EvolutionView panel) 
 	{
-		loadGenes = gene;
+		this.panel = panel;
+		loadGenes = this.panel.getCurrentGene();
 		initComponents();
 	}
 
@@ -55,7 +62,7 @@ public class GeneGUI extends JFrame
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Biomorph Generator");
 		
-		setPreferredSize(new Dimension(1000, 500));
+		setPreferredSize(new Dimension(1150, 500));
 		setResizable(false);
 		
 		createLabels();
@@ -127,6 +134,18 @@ public class GeneGUI extends JFrame
 			}
 		});
 		saveButton.setPreferredSize(new Dimension(100, 20));
+		
+		biomorphEvolverButton = new JButton();
+		biomorphEvolverButton.setText("Open in Biomorph Evolver");
+		geneView = this;
+		biomorphEvolverButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				panel.notifyMeGene(loadGenes);
+				geneView.dispose();
+				
+			}
+		});
+		biomorphEvolverButton.setPreferredSize(new Dimension(200, 20));
 	}
 	
 	private void createNewBiomorph(ActionEvent evt) 
@@ -148,6 +167,7 @@ public class GeneGUI extends JFrame
 		grow.setRgb1(colourPicker1.getColour());
 		grow.setRgb2(colourPicker2.getColour());
 		grow.generate();
+		loadGenes = grow.getCurrentGenes();
 		currentImage.setIcon(new ImageIcon(grow.getCanvas().getScaledImage(currentImageX,currentImageY)));
 		
 		
@@ -160,13 +180,14 @@ public class GeneGUI extends JFrame
 	
 	private void saveButtonActionPerformed(ActionEvent evt) 
 	{
-		long startTime = (new Date()).getTime();
-		
-		
-		long endTime = (new Date()).getTime();
-		long elapsedTime = endTime - startTime;
-		saveTime.setText("Generate Time: (" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
-		//System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
+		new Save(new Grow(loadGenes).getCanvas().getImg(), this);
+//		long startTime = (new Date()).getTime();
+//		
+//		
+//		long endTime = (new Date()).getTime();
+//		long elapsedTime = endTime - startTime;
+//		saveTime.setText("Generate Time: (" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
+//		System.out.println("(" + String.format("%.3f", elapsedTime / 1000.0) + "s) ");
 	}
 	
 	private void createSliders()
@@ -217,6 +238,7 @@ public class GeneGUI extends JFrame
 		leftPane = new JPanel();
 		centerPane = new JPanel();
 		rightPane = new JPanel();
+		buttonPane = new JPanel();
 		
 		leftPane.setLayout(new BoxLayout(leftPane, BoxLayout.PAGE_AXIS));
 		pane.add(leftPane, BorderLayout.LINE_START);
@@ -229,8 +251,6 @@ public class GeneGUI extends JFrame
 		
 		leftPane.add(currentImageLabel);
 		leftPane.add(currentImage);
-		leftPane.add(generateButton);
-		leftPane.add(saveButton);
 		leftPane.add(redrawTime);
 		
 		centerPane.add(editLabel);
@@ -242,8 +262,12 @@ public class GeneGUI extends JFrame
 		centerPane.add(colourPicker1);
 		centerPane.add(colourPicker2);
 		
-		centerPane.add(generateButton);
-		centerPane.add(saveButton);
+		buttonPane.setLayout(new FlowLayout());
+		centerPane.add(buttonPane);
+		
+		buttonPane.add(generateButton);
+		buttonPane.add(saveButton);
+		buttonPane.add(biomorphEvolverButton);
 		
 		rightPane.add(historyLabel);
 		for (JLabel label: historyImages)

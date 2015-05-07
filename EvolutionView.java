@@ -19,16 +19,19 @@ public class EvolutionView extends JPanel
 	private Grow grow;
 	private JLabel currentImage;
 	private int[] currentGene;
+
 	private ArrayList<int[]> genes;
 	private ArrayList<JLabel> mutatedImages;
 	private JPopupMenu cPopup;
 	private JPopupMenu mPopup;
 	private MainGUI gui;
 	private JButton geneViewButton;
+	private GeneGUI geneView;
+	private EvolutionView evoView;
 
 	private int imageX = 200;
 	private int imageY = 200;
-
+	
 	public EvolutionView(MainGUI gui) 
 	{
 		this.gui = gui;
@@ -37,14 +40,16 @@ public class EvolutionView extends JPanel
 		createMutatedImagePopupMenu();
 		setLayout(new BorderLayout());
 		geneViewButton = new JButton("Open Gene View");
+		evoView = this;
 		geneViewButton.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent evt) {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() 
 					{
-							new GeneGUI(currentGene).setVisible(true);
+							geneView = new GeneGUI(evoView);
+							geneView.setVisible(true);
 					}
 				});
 			}
@@ -320,6 +325,15 @@ public class EvolutionView extends JPanel
 
 		}
 		genes = tempGenes;
+	}
+	
+	public int[] getCurrentGene() {
+		return currentGene;
+	}
+	
+	public void notifyMeGene(int[] gene)
+	{
+		loadFromHof(gene);
 	}
 
 }

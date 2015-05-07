@@ -121,6 +121,9 @@ public class Grow
 	public void setSeed(long seed)
 	{
 		r.setSeed(seed);
+		this.seed = seed;
+		int[] changedGenes = {complexity, length, height, width, (int) this.seed, rgb1, rgb2};
+		setCurrentGenes(changedGenes);
 	}
 
 	public void setGenes(int[] genes)
